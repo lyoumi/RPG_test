@@ -67,6 +67,11 @@ public class Devil implements Monster{
         return new Bow(human);
     }
 
+    @Override
+    public boolean setDebuff() {
+        return false;
+    }
+
     public String toString(){
         return Devil.class.getSimpleName() +": HP " + getHitPoint() + "; ATK +" + getDamage();
     }

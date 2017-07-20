@@ -113,9 +113,12 @@ public class PlayerController {
                     useItem(human);
                     break;
                 case 2: {
+                    System.out.println("\n" + monster);
                     Magic magic = FireBall.getMagic(human.getLevel());
+                    monster.setDebuff();
                     monster.setHitPoint(monster.getHitPoint() - monster.applyDamage(human.getMagic(magic)));
                     System.out.println(monster.getClass().getSimpleName() + " caught fire for " + human.getMagic(magic) + " getDamage");
+                    System.out.println(monster + "\n");
                     break;
                 }
                 case 3:
@@ -192,9 +195,11 @@ public class PlayerController {
      * @param monster
      * @return
      */
-    boolean punch(Human human, Monster monster){
+    private boolean punch(Human human, Monster monster){
+        System.out.println(monster);
         monster.setHitPoint((monster.getHitPoint() - monster.applyDamage(human.getDamage())));
         human.setHitPoint((human.getHitPoint() - human.applyDamage(monster.getDamage())));
+        System.out.println(monster);
         return true;
     }
 

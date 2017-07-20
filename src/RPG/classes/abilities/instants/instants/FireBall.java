@@ -31,7 +31,7 @@ public class FireBall implements InstantMagic {
      */
     @Override
     public int getDamage() {
-        return damage + (BurningJoe.getBurningJoe(getLevel()).getDamage() * BurningJoe.getBurningJoe(getLevel()).getTimeOfAction());
+        return damage;
     }
 
     /**

@@ -10,7 +10,7 @@ public class BurningJoe implements DebuffMagic {
     private int timeOfAction = 5;
 
     private BurningJoe(int level){
-        this.level = level;
+        this.level = level + 1;
         this.damage = getLevel()*3;
     }
 

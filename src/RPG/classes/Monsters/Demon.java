@@ -8,6 +8,9 @@ import RPG.classes.Items.items.armors.boots.IronBoots;
 import RPG.classes.Items.items.armors.helmets.IronHelmet;
 import RPG.classes.Items.items.weapons.weapons.Bow;
 import RPG.classes.Items.items.weapons.weapons.Sword;
+import RPG.classes.abilities.debuffs.DebuffMagic;
+import RPG.classes.abilities.debuffs.debuffs.BurningJoe;
+import RPG.classes.abilities.instants.instants.FireBall;
 
 import java.util.*;
 
@@ -28,11 +31,20 @@ public class Demon implements Monster {
     private int experience = 100;
     private LinkedList<Items> inventory = new LinkedList<>();
 
+    private DebuffMagic debuffMagic;
+
     public Demon(Human human){
         this.human = human;
         HERO_LEVEL = human.getLevel();
         hitPoint = (HERO_LEVEL+1)*70;
         damage = (HERO_LEVEL+1)*20;
+    }
+
+
+
+    private boolean isBuffed(){
+        if (Objects.equals(debuffMagic, null)) return false;
+        else return debuffMagic.getTimeOfAction() > 0;
     }
 
     public int getExperience(){
@@ -46,7 +58,11 @@ public class Demon implements Monster {
 
     @Override
     public int applyDamage(int applyDamage) {
-        return applyDamage;
+        if (isBuffed()) {
+            System.out.println("He's in flame!");
+            return applyDamage + debuffMagic.getDamage();
+        }
+        else return applyDamage;
     }
 
     @Override
@@ -74,6 +90,12 @@ public class Demon implements Monster {
             case 4: return new Bow(human);
             default: return null;
         }
+    }
+
+    @Override
+    public boolean setDebuff() {
+        debuffMagic = BurningJoe.getBurningJoe(HERO_LEVEL);
+        return true;
     }
 
     public String toString(){

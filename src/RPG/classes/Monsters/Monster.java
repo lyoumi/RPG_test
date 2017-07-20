@@ -15,5 +15,6 @@ public interface Monster {
     int getHitPoint();
     void setHitPoint(int hitPoint);
     LinkedList<Items> getInventory();
-    public Item getDroppedItems();
+    Item getDroppedItems();
+    boolean setDebuff();
 }
