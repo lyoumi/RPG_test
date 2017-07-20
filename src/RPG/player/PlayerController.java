@@ -96,6 +96,36 @@ public class PlayerController {
     }
 
     /**
+     * Метод симулирующий бой между героем и монстром
+     * В ходе боя игрок может покинуть бой для дальнейшего приключения, или же использовать имеющиеся у него веши
+     * @param human
+     * @param monster
+     */
+    private synchronized String battle(Human human, Monster monster){
+        battle:
+        while ((human.getHitPoint() > 0) && (monster.getHitPoint() > 0)) {
+            punch(human, monster);
+            System.out.println(human);
+
+            System.out.println("Choose next turn: 1 - useItem, 2 - use magic, 3 - leave battle, default to continue....");
+            switch (scanner.nextInt()) {
+                case 1:
+                    useItem(human);
+                    break;
+                case 2: {
+                    Magic magic = FireBall.getMagic(human.getLevel());
+                    monster.setHitPoint(monster.getHitPoint() - monster.applyDamage(human.getMagic(magic)));
+                    System.out.println(monster.getClass().getSimpleName() + " caught fire for " + human.getMagic(magic) + " getDamage");
+                    break;
+                }
+                case 3:
+                    break battle;
+            }
+        }
+        return "The battle is over. Your stats: " + human;
+    }
+
+    /**
      * Режим автоматического ведения боя. В случае с малым количеством здоровья персонаж будет способен
      * самостоятельно восстановить здоровье, а в случае отсутствия предметов для восстановления
      * отправится в путешествие для их поиска (walking())
@@ -132,36 +162,6 @@ public class PlayerController {
                 }
             }
         }
-    }
-
-    /**
-     * Метод симулирующий бой между героем и монстром
-     * В ходе боя игрок может покинуть бой для дальнейшего приключения, или же использовать имеющиеся у него веши
-     * @param human
-     * @param monster
-     */
-    private synchronized String battle(Human human, Monster monster){
-        battle:
-        while ((human.getHitPoint() > 0) && (monster.getHitPoint() > 0)) {
-            punch(human, monster);
-            System.out.println(human);
-
-            System.out.println("Choose next turn: 1 - useItem, 2 - use magic, 3 - leave battle, default to continue....");
-            switch (scanner.nextInt()) {
-                case 1:
-                    useItem(human);
-                    break;
-                case 2: {
-                    Magic magic = FireBall.getMagic(human.getLevel());
-                    monster.setHitPoint(monster.getHitPoint() - monster.applyDamage(human.getMagic(magic)));
-                    System.out.println(monster.getClass().getSimpleName() + " caught fire for " + human.getMagic(magic) + " getDamage");
-                    break;
-                }
-                case 3:
-                    break battle;
-            }
-        }
-        return "The battle is over. Your stats: " + human;
     }
 
     /**
