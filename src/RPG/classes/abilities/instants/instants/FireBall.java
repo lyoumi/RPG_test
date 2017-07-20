@@ -2,7 +2,6 @@ package RPG.classes.abilities.instants.instants;
 
 import RPG.classes.abilities.Magic;
 import RPG.classes.abilities.MagicClasses;
-import RPG.classes.abilities.debuffs.debuffs.BurningJoe;
 import RPG.classes.abilities.instants.InstantMagic;
 
 public class FireBall implements InstantMagic {
