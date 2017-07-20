@@ -168,6 +168,20 @@ public class PlayerController {
     }
 
     /**
+     * Метод, реализующий удар монстра и героя. Возвращает true после удара
+     * @param human
+     * @param monster
+     * @return
+     */
+    private boolean punch(Human human, Monster monster){
+        System.out.println(monster);
+        monster.setHitPoint((monster.getHitPoint() - monster.applyDamage(human.getDamage())));
+        human.setHitPoint((human.getHitPoint() - human.applyDamage(monster.getDamage())));
+        System.out.println(monster);
+        return true;
+    }
+
+    /**
      * Метод предназначенный для автоматического восполнения здоровья
      * Возвращает true в случае успешного восполнения здоровья и false в случае если этого не произошло
      * @param human
@@ -187,20 +201,6 @@ public class PlayerController {
             System.out.println(human);
             return true;
         }else return false;
-    }
-
-    /**
-     * Метод, реализующий удар монстра и героя. Возвращает true после удара
-     * @param human
-     * @param monster
-     * @return
-     */
-    private boolean punch(Human human, Monster monster){
-        System.out.println(monster);
-        monster.setHitPoint((monster.getHitPoint() - monster.applyDamage(human.getDamage())));
-        human.setHitPoint((human.getHitPoint() - human.applyDamage(monster.getDamage())));
-        System.out.println(monster);
-        return true;
     }
 
     /**

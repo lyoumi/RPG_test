@@ -15,6 +15,11 @@ public class BurningJoe implements DebuffMagic {
     }
 
     @Override
+    public int getTimeOfAction() {
+        return --timeOfAction;
+    }
+
+    @Override
     public int getLevel() {
         return level;
     }
@@ -27,11 +32,6 @@ public class BurningJoe implements DebuffMagic {
     @Override
     public int getDamage() {
         return damage;
-    }
-
-    @Override
-    public int getTimeOfAction() {
-        return --timeOfAction;
     }
 
     @Override

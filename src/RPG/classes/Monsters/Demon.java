@@ -28,7 +28,6 @@ public class Demon implements Monster {
 
     private int damage;
     private int hitPoint;
-    private int experience = 100;
     private LinkedList<Items> inventory = new LinkedList<>();
 
     private DebuffMagic debuffMagic;
@@ -48,7 +47,8 @@ public class Demon implements Monster {
     }
 
     public int getExperience(){
-        return  experience;
+        int experience = 100;
+        return experience;
     }
 
     @Override
