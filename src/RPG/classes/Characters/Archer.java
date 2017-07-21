@@ -85,7 +85,7 @@ public class Archer implements Human, UsingItems, Equipment{
 
     @Override
     public void experienceDrop(double experience){
-
+        setExperience(experience);
     }
 
     @Override
