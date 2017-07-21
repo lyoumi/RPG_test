@@ -104,6 +104,11 @@ public class Wizard implements Human {
     }
 
     @Override
+    public int getMaxHitPoint() {
+        return 0;
+    }
+
+    @Override
     public ArrayList<Items> getInventory() {
         return null;
     }

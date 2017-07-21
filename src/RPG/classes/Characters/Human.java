@@ -22,6 +22,8 @@ public interface Human {
 
     void setHitPoint(int hitPoint);
 
+    int getMaxHitPoint();
+
     ArrayList<Items> getInventory();
 
     void experienceDrop(double experience);
@@ -30,19 +32,7 @@ public interface Human {
 
     void setDamage(int damage);
 
-    int getAgility();
-
-    void setAgility(int agility);
-
-    int getIntelligence();
-
-    void setIntelligence(int intelligence);
-
     boolean setMana(int mana);
 
     int getMagic(Magic magic);
-
-    int getPower();
-
-    void setPower(int power);
 }

@@ -88,8 +88,7 @@ public class Archer implements Human, UsingItems, Equipment{
         setExperience(experience);
     }
 
-    @Override
-    public int getAgility() {
+    private int getAgility() {
         return agility + getSummaryAdditionAgility();
     }
 
@@ -110,13 +109,11 @@ public class Archer implements Human, UsingItems, Equipment{
         return additionAgility;
     }
 
-    @Override
-    public void setAgility(int agility) {
+    private void setAgility(int agility) {
         this.agility = agility;
     }
 
-    @Override
-    public int getIntelligence() {
+    private int getIntelligence() {
         return intelligence + getSummaryAdditionIntelligence();
     }
 
@@ -137,8 +134,7 @@ public class Archer implements Human, UsingItems, Equipment{
         return additionIntelligence;
     }
 
-    @Override
-    public void setIntelligence(int intelligence) {
+    private void setIntelligence(int intelligence) {
         this.intelligence = intelligence;
     }
 
@@ -167,8 +163,7 @@ public class Archer implements Human, UsingItems, Equipment{
         }else return 0;
     }
 
-    @Override
-    public int getPower() {
+    private int getPower() {
         return power + getSummaryAdditionPower();
     }
 
@@ -188,8 +183,7 @@ public class Archer implements Human, UsingItems, Equipment{
         return additionPower;
     }
 
-    @Override
-    public void setPower(int power) {
+    private void setPower(int power) {
         this.power = power;
     }
 
@@ -231,6 +225,11 @@ public class Archer implements Human, UsingItems, Equipment{
     @Override
     public void setHitPoint(int hitPoint) {
         this.hitPoint = hitPoint;
+    }
+
+    @Override
+    public int getMaxHitPoint() {
+        return getPower()*getMultiplierPower();
     }
 
     @Override

@@ -195,15 +195,15 @@ public class PlayerController {
      * @return
      */
     boolean autoHeal(Human human){
-        if ((human.getHitPoint() < (human.getPower()/10)) && (human.getHitPoint() < 30) && (human.getInventory().contains(Items.BigHPBottle))) {
+        if ((human.getHitPoint() < (human.getMaxHitPoint()/10)) && (human.getHitPoint() < 30) && (human.getInventory().contains(Items.BigHPBottle))) {
             ((UsingItems)human).use(Items.BigHPBottle);
             System.out.println(human);
             return true;
-        }else if ((human.getHitPoint() < (human.getPower()/4)) && (human.getHitPoint() < 50) && (human.getInventory().contains(Items.MiddleHPBottle))) {
+        }else if ((human.getHitPoint() < (human.getMaxHitPoint()/4)) && (human.getHitPoint() < 50) && (human.getInventory().contains(Items.MiddleHPBottle))) {
             ((UsingItems)human).use(Items.MiddleHPBottle);
             System.out.println(human);
             return true;
-        }else if ((human.getHitPoint() < (human.getPower()/2)) && (human.getHitPoint() < 80) && (human.getInventory().contains(Items.SmallHPBottle))) {
+        }else if ((human.getHitPoint() < (human.getMaxHitPoint()/2)) && (human.getHitPoint() < 80) && (human.getInventory().contains(Items.SmallHPBottle))) {
             ((UsingItems)human).use(Items.SmallHPBottle);
             System.out.println(human);
             return true;
