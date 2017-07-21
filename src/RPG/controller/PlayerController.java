@@ -81,33 +81,6 @@ public class PlayerController {
     }
 
     /**
-     * Данный метод описывает автоматизированное поведение героя
-     * В данном методе герой в цикле while() получает 0.0000001 опыта и случайно выпадающие предметы
-     * Остановка цикла происходит при вводе с клавиатуры 0
-     *
-     * @param human
-     *          Character implementation {@link Human}
-     * @return
-     *          String result of walking
-     */
-    private String walking(Human human){
-        try{
-            while (System.in.available()==0) {
-                human.experienceDrop(0.0000001);
-                if (random.nextInt(10000000) == 999999) {
-                    Items item = itemsList.get(random.nextInt(sizeOfItems));
-                    System.out.println("I found " + item);
-                    human.getInventory().add(item);
-                }
-                if (human.getInventory().size() > ((human.getLevel()+1)*10)) break;
-            }
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        return "The walk is over. Your stats: " + human;
-    }
-
-    /**
      * Метод симулирующий бой между героем и монстром
      * В ходе боя игрок может покинуть бой для дальнейшего приключения, или же использовать имеющиеся у него веши
      * @param human
@@ -195,6 +168,33 @@ public class PlayerController {
     }
 
     /**
+     * Данный метод описывает автоматизированное поведение героя
+     * В данном методе герой в цикле while() получает 0.0000001 опыта и случайно выпадающие предметы
+     * Остановка цикла происходит при вводе с клавиатуры 0
+     *
+     * @param human
+     *          Character implementation {@link Human}
+     * @return
+     *          String result of walking
+     */
+    private String walking(Human human){
+        try{
+            while (System.in.available()==0) {
+                human.experienceDrop(0.0000001);
+                if (random.nextInt(10000000) == 999999) {
+                    Items item = itemsList.get(random.nextInt(sizeOfItems));
+                    System.out.println("I found " + item);
+                    human.getInventory().add(item);
+                }
+                if (human.getInventory().size() > ((human.getLevel()+1)*10)) break;
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return "The walk is over. Your stats: " + human;
+    }
+
+    /**
      * Метод, реализующий удар монстра и героя. Возвращает true после удара
      * @param human
      *          Character implementation of {@link Human}
@@ -249,7 +249,7 @@ public class PlayerController {
         System.out.println("Use your items? " + human.getInventory() + "\nPls, select by index....");
         int position = scanner.nextInt();
         if (human.getInventory().contains(human.getInventory().get(--position))){
-            ((UsingItems) human).use(human.getInventory().get(--position));
+            ((UsingItems) human).use(human.getInventory().get(position));
             return true;
         } else {
             System.out.println("Item not found");
@@ -273,23 +273,29 @@ public class PlayerController {
      */
     private boolean drop(Human human, Monster monster, boolean autoDrop) {
         if (autoDrop){
-
             human.experienceDrop(monster.getExperience());
-
             ((UsingItems) human).add(monster.getInventory().pollLast());
             ((Equipment)human).equip(monster.getDroppedItems());
-
             return true;
         } else{
-
             human.experienceDrop(monster.getExperience());
             System.out.println("You can add to your inventory " + monster.getInventory());
-            if (scanner.nextInt() == 1) ((UsingItems) human).add(monster.getInventory().pollLast());
-
+            while (true) {
+                String s = scanner.nextLine();
+                if (Objects.equals(s, "add")) {
+                    ((UsingItems) human).add(monster.getInventory().pollLast());
+                    break;
+                } else System.out.println("Pls, make the correct choice....");
+            }
             Item droppedItems = monster.getDroppedItems();
-            System.out.println("Equipment " + droppedItems);
-            if (scanner.nextInt() == 1) ((Equipment)human).equip(droppedItems);
-
+            System.out.println("You can equip " + droppedItems);
+            while (true) {
+                String s = scanner.nextLine();
+                if (Objects.equals(s, "equip")) {
+                    ((Equipment)human).equip(droppedItems);
+                    break;
+                } else System.out.println("Pls, make the correct choice....");
+            }
             return true;
         }
     }
@@ -319,18 +325,22 @@ public class PlayerController {
         PlayerController playerController = new PlayerController();
         System.out.println("Hello in Middle-Earth....");
         System.out.println("Choose your class: archer, berserk, wizard....");
-        switch (scanner.nextLine()) {
-            case "archer": {
-                playerController.beginGame(new Archer());
-                break;
-            }
-            case "berserk": {
-                playerController.beginGame(new Berserk());
-                break;
-            }
-            case "wizard": {
-                playerController.beginGame(new Wizard());
-                break;
+        choice:
+        while(true){
+            String s = scanner.nextLine();
+            switch (s) {
+                case "archer":
+                    playerController.beginGame(new Archer());
+                    break choice;
+                case "berserk":
+                    playerController.beginGame(new Berserk());
+                    break choice;
+                case "wizard":
+                    playerController.beginGame(new Wizard());
+                    break choice;
+                default:
+                    System.out.println("Pls, make the correct choice....");
+                    break;
             }
         }
     }
