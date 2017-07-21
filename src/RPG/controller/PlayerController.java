@@ -137,12 +137,9 @@ public class PlayerController {
             String magicChoice = scanner.nextLine();
             switch (magicChoice){
                 case "FireBall":
-                    System.out.println("\n" + monster);
                     Magic combatMagic = FireBall.magicFactory.getMagicFactory(human.getLevel());
                     monster.setDebuff(combatMagic);
                     monster.setHitPoint(monster.getHitPoint() - monster.applyDamage(human.getMagic(combatMagic)));
-                    System.out.println(monster.getClass().getSimpleName() + " caught fire for " + human.getMagic(combatMagic) + " getDamage");
-                    System.out.println(monster + "\n");
                     break choice;
                 case "SmallHealing":
                     Magic healingMagic = SmallHealing.getSmallHealing(human);
@@ -240,7 +237,7 @@ public class PlayerController {
     private boolean punch(Human human, Monster monster){
         System.out.println(monster);
         monster.setHitPoint((monster.getHitPoint() - monster.applyDamage(human.getDamage())));
-        human.setHitPoint((human.getHitPoint() - human.applyDamage(monster.getDamage())));
+        human.setHitPoint((human.getHitPoint() - human.applyDamage(monster.getDamageForBattle())));
         System.out.println(monster);
         return true;
     }

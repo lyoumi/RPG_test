@@ -56,10 +56,5 @@ public class FireBall implements InstantMagic {
         return MagicClasses.INSTANT;
     }
 
-    public static MagicFactory magicFactory = new MagicFactory() {
-        @Override
-        public Magic getMagicFactory(int level) {
-            return new FireBall(level);
-        }
-    };
+    public static MagicFactory magicFactory = FireBall::new;
 }

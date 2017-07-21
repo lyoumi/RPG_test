@@ -38,7 +38,7 @@ public class Devil implements Monster{
     }
 
     @Override
-    public int getDamage() {
+    public int getDamageForBattle() {
         return damage;
     }
 
@@ -74,6 +74,6 @@ public class Devil implements Monster{
     }
 
     public String toString(){
-        return Devil.class.getSimpleName() +": HP " + getHitPoint() + "; ATK +" + getDamage();
+        return Devil.class.getSimpleName() +": HP " + getHitPoint() + "; ATK +" + getDamageForBattle();
     }
 }

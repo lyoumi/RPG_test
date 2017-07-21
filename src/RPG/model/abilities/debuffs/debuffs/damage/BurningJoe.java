@@ -20,7 +20,7 @@ public class BurningJoe implements DebuffMagic {
     @Override
     public int getTimeOfAction() {
         timeOfAction -= 1;
-        System.out.println(timeOfAction);
+//        System.out.println(timeOfAction);
         return timeOfAction;
     }
 

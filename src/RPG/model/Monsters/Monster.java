@@ -11,7 +11,7 @@ import java.util.LinkedList;
  */
 public interface Monster {
     int getExperience();
-    int getDamage();
+    int getDamageForBattle();
     int applyDamage(int applyDamage);
     int getHitPoint();
     void setHitPoint(int hitPoint);

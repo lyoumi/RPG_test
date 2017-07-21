@@ -43,9 +43,8 @@ public class Demon implements Monster {
 
 
 
-    private boolean isBuffed(){
-        if (Objects.equals(debuffMagic, null)) return false;
-        else return debuffMagic.getTimeOfAction() > 0;
+    private boolean isBuffed() {
+        return !Objects.equals(debuffMagic, null);
     }
 
     public int getExperience(){
@@ -54,22 +53,33 @@ public class Demon implements Monster {
     }
 
     @Override
-    public int getDamage() {
+    public int getDamageForBattle() {
         if (isBuffed() && Objects.equals(debuffMagic.getClass().getSimpleName(), "Chains")){
-            System.out.println("He in ice");
-            return 0;
+            int turn = debuffMagic.getTimeOfAction();
+            System.out.println(turn);
+            if (turn > 0){
+                System.out.println("He's in ice!");
+                return 0;
+            }else return damage;
         }
         else return damage;
 
     }
 
+    private int getDamage(){
+        return damage;
+    }
+
     @Override
     public int applyDamage(int applyDamage) {
-        if (isBuffed())
-            if (debuffMagic.getClass().getSimpleName().contentEquals("BurningJoe") ) {
-                System.out.println("He's in flame!");
-                return applyDamage + debuffMagic.getDamage();
-            } else return applyDamage;
+        if (isBuffed() && debuffMagic.getClass().getSimpleName().contentEquals("BurningJoe")){
+                int turn = debuffMagic.getTimeOfAction();
+                System.out.println(turn);
+                if (turn > 0){
+                    System.out.println("He's in flame!");
+                    return applyDamage + debuffMagic.getDamage();
+                }else return applyDamage;
+        }
         else return applyDamage;
     }
 
