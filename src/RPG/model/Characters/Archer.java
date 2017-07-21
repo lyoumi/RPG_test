@@ -237,7 +237,8 @@ public class Archer implements Human, UsingItems, Equipment{
 
     @Override
     public void setHitPoint(int hitPoint) {
-        this.hitPoint = hitPoint;
+        if (hitPoint > getMaxHitPoint()) this.hitPoint = getMaxHitPoint();
+        else this.hitPoint = hitPoint;
     }
 
     @Override
