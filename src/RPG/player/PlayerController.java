@@ -256,6 +256,12 @@ public class PlayerController {
         return new Demon(human);
     }
 
+    /**
+     * Main-method
+     *
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         PlayerController playerController = new PlayerController();
         System.out.println("Hello in Middle-Earth....");
