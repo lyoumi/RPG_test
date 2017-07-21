@@ -1,4 +1,4 @@
-package RPG.model.abilities.instants.instants;
+package RPG.model.abilities.instants.instants.combat;
 
 import RPG.model.abilities.Magic;
 import RPG.model.abilities.MagicClasses;

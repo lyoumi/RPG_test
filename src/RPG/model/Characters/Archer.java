@@ -10,7 +10,7 @@ import RPG.model.Items.items.weapons.Weapons;
 import RPG.model.abilities.Magic;
 import RPG.model.abilities.MagicClasses;
 import RPG.model.abilities.buffs.BuffMagic;
-import RPG.model.abilities.instants.instants.FireBall;
+import RPG.model.abilities.instants.instants.combat.FireBall;
 import RPG.model.abilities.instants.instants.InstantMagic;
 
 import java.util.*;

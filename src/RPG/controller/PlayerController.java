@@ -9,7 +9,7 @@ import RPG.model.Monsters.Demon;
 import RPG.model.Monsters.Devil;
 import RPG.model.Monsters.Monster;
 import RPG.model.abilities.Magic;
-import RPG.model.abilities.instants.instants.FireBall;
+import RPG.model.abilities.instants.instants.combat.FireBall;
 
 import java.io.IOException;
 import java.util.*;
