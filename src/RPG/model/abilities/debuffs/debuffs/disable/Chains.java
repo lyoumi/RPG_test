@@ -1,22 +1,27 @@
-package RPG.model.abilities.debuffs.debuffs;
+package RPG.model.abilities.debuffs.debuffs.disable;
 
 import RPG.model.abilities.MagicClasses;
 import RPG.model.abilities.debuffs.DebuffMagic;
 
-public class BurningJoe implements DebuffMagic {
+public class Chains implements DebuffMagic{
 
-    private int level;
     private int damage;
-    private int timeOfAction = 5;
+    private int level;
+    private int timeOFActions = 5;
 
-    private BurningJoe(int level){
+    private Chains(int level){
         this.level = level + 1;
-        this.damage = getLevel()*3;
+        this.damage = getLevel()*2;
+    }
+
+    @Override
+    public int getDamage() {
+        return damage;
     }
 
     @Override
     public int getTimeOfAction() {
-        return --timeOfAction;
+        return --timeOFActions;
     }
 
     @Override
@@ -26,12 +31,7 @@ public class BurningJoe implements DebuffMagic {
 
     @Override
     public int getManaCost() {
-        return 30;
-    }
-
-    @Override
-    public int getDamage() {
-        return damage;
+        return 0;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class BurningJoe implements DebuffMagic {
         return MagicClasses.DEBUFF;
     }
 
-    public static BurningJoe getBurningJoe(int level){
-        return new BurningJoe(level);
+    public static Chains getChains(int level){
+        return new Chains(level);
     }
 }

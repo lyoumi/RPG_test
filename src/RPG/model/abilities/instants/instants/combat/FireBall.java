@@ -12,15 +12,7 @@ public class FireBall implements InstantMagic {
     private FireBall(int level){
         this.level = level + 1;
         this.damage = getLevel() * 5;
-        this.manaCost = getLevel() * getCostMultiplier();
-    }
-
-    /**
-     * Множитель затрат маны (мана на заклинание рассчитывается по формуле Множитель*(Уроень героя+1))
-     * @return
-     */
-    private int getCostMultiplier() {
-        return 3;
+        this.manaCost = getLevel() * 3;
     }
 
     /**

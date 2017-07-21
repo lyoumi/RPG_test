@@ -9,7 +9,7 @@ import RPG.model.Items.items.armors.helmets.IronHelmet;
 import RPG.model.Items.items.weapons.weapons.Bow;
 import RPG.model.Items.items.weapons.weapons.Sword;
 import RPG.model.abilities.debuffs.DebuffMagic;
-import RPG.model.abilities.debuffs.debuffs.BurningJoe;
+import RPG.model.abilities.debuffs.debuffs.damage.BurningJoe;
 
 import java.util.*;
 
@@ -52,6 +52,7 @@ public class Demon implements Monster {
 
     @Override
     public int getDamage() {
+
         return damage;
     }
 
@@ -93,7 +94,7 @@ public class Demon implements Monster {
 
     @Override
     public boolean setDebuff() {
-        debuffMagic = BurningJoe.getBurningJoe(HERO_LEVEL);
+        debuffMagic = BurningJoe.magicFactory.magicFactory(HERO_LEVEL);
         return true;
     }
 
