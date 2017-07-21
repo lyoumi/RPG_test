@@ -10,6 +10,8 @@ import java.util.ArrayList;
  */
 public interface Human {
 
+    void experienceDrop(double experience);
+
     int getManaPoint();
 
     int getDefence();
@@ -25,12 +27,6 @@ public interface Human {
     ArrayList<Items> getInventory();
 
     int getLevel();
-
-    double getExperience();
-
-    void setExperience(double experience);
-
-    double expToNextLevel();
 
     void setDamage(int damage);
 

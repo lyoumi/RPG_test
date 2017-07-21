@@ -56,19 +56,16 @@ public class Archer implements Human, UsingItems, Equipment{
         return level;
     }
 
-    @Override
-    public double getExperience() {
+    private double getExperience() {
         return experience;
     }
 
-    @Override
-    public void setExperience(double experience) {
+    private void setExperience(double experience) {
         this.experience += experience;
         changeLevel();
     }
 
-    @Override
-    public double expToNextLevel() {
+    private double expToNextLevel() {
         return (((getLevel()+1)*1500) - getExperience());
     }
 
@@ -84,6 +81,11 @@ public class Archer implements Human, UsingItems, Equipment{
             System.out.println(this);
             return true;
         } else return false;
+    }
+
+    @Override
+    public void experienceDrop(double experience){
+
     }
 
     @Override

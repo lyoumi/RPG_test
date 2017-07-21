@@ -84,7 +84,7 @@ public class PlayerController {
      */
     private String walking(Human human) throws IOException{
         while (System.in.available()==0) {
-            human.setExperience(0.0000001);
+            human.experienceDrop(0.0000001);
             if (random.nextInt(10000000) == 999999) {
                 Items item = itemsList.get(random.nextInt(sizeOfItems));
                 System.out.println("I found " + item);
@@ -229,14 +229,14 @@ public class PlayerController {
     private void drop(Human human, Monster monster, boolean autoDrop) {
         if (autoDrop){
 
-            human.setExperience(monster.getExperience());
+            human.experienceDrop(monster.getExperience());
 
             ((UsingItems) human).add(monster.getInventory().pollLast());
             ((Equipment)human).equip(monster.getDroppedItems());
 
         } else{
 
-            human.setExperience(monster.getExperience());
+            human.experienceDrop(monster.getExperience());
             System.out.println("You can add to your inventory " + monster.getInventory());
             if (scanner.nextInt() == 1) ((UsingItems) human).add(monster.getInventory().pollLast());
 
