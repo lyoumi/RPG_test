@@ -43,7 +43,7 @@ public class PlayerController {
             Monster monster = spawn(human);
             System.out.println("\nBattle began with " + monster);
 
-            String resultOfBattle = battle(human, monster);
+            String resultOfBattle = manualBattle(human, monster);
 
             if (human.getHitPoint() <= 0) {
                 System.err.println("YOU ARE DEAD");
@@ -52,23 +52,30 @@ public class PlayerController {
                 System.out.println(resultOfBattle + "\n");
                 drop(human, monster, false);
             }
-            System.out.println("What's next? 1 - use items, 2 - walking, 3 - break adventures, 4 - go to auto-battle, default to continue....");
-            switch (scanner.nextInt()) {
-                case 1: {
-                    useItem(human);
-                    break;
+            System.out.println("What's next? Use item, go walking, go to auto-battle, stop for break adventures, continue....");
+
+            choice:
+            while (true) {
+                String s = scanner.nextLine();
+                switch (s) {
+                    case "use item":
+                        useItem(human);
+                        break choice;
+                    case "walking":
+                        String endOfWalk = walking(human);
+                        System.out.println(endOfWalk);
+                        break choice;
+                    case "auto-battle":
+                        autoBattle(human);
+                        break choice;
+                    case "stop":
+                        break adventure;
+                    case "continue":
+                        break choice;
+                    default:
+                        System.out.println("Pls, make the correct choice....");
+                        break;
                 }
-                case 2: {
-                    String endOfWalk = walking(human);
-                    System.out.println(endOfWalk);
-                    break;
-                }
-                case 3: break adventure;
-                case 4: {
-                    autoBattle(human);
-                    break;
-                }
-                default: break;
             }
         }
     }
@@ -101,13 +108,13 @@ public class PlayerController {
      * @param human
      * @param monster
      */
-    private synchronized String battle(Human human, Monster monster){
+    private synchronized String manualBattle(Human human, Monster monster){
         battle:
         while ((human.getHitPoint() > 0) && (monster.getHitPoint() > 0)) {
             punch(human, monster);
             System.out.println(human);
 
-            System.out.println("Choose next turn: 1 - useItem, 2 - use magic, 3 - leave battle, default to continue....");
+            System.out.println("Choose next turn: 1 - useItem, 2 - use magic, 3 - leave manualBattle, default to continue....");
             switch (scanner.nextInt()) {
                 case 1:
                     useItem(human);
@@ -125,7 +132,7 @@ public class PlayerController {
                     break battle;
             }
         }
-        return "The battle is over. Your stats: " + human;
+        return "The manualBattle is over. Your stats: " + human;
     }
 
     /**

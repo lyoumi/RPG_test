@@ -113,18 +113,20 @@ public class Wizard implements Human {
         return 0;
     }
 
-    @Override
     public double getExperience() {
         return 0;
     }
 
-    @Override
     public void setExperience(double experience) {
 
     }
 
-    @Override
     public double expToNextLevel() {
         return 0;
+    }
+
+    @Override
+    public void experienceDrop(double experience) {
+
     }
 }
