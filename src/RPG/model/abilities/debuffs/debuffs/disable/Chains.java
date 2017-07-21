@@ -1,13 +1,15 @@
 package RPG.model.abilities.debuffs.debuffs.disable;
 
+import RPG.model.abilities.Magic;
 import RPG.model.abilities.MagicClasses;
+import RPG.model.abilities.MagicFactory;
 import RPG.model.abilities.debuffs.DebuffMagic;
 
 public class Chains implements DebuffMagic{
 
     private int damage;
     private int level;
-    private int timeOFActions = 5;
+    private int timeOfActions = 5;
 
     private Chains(int level){
         this.level = level + 1;
@@ -16,12 +18,13 @@ public class Chains implements DebuffMagic{
 
     @Override
     public int getDamage() {
+        System.out.println("He in ice");
         return damage;
     }
 
     @Override
     public int getTimeOfAction() {
-        return --timeOFActions;
+        return --timeOfActions;
     }
 
     @Override
@@ -39,7 +42,5 @@ public class Chains implements DebuffMagic{
         return MagicClasses.DEBUFF;
     }
 
-    public static Chains getChains(int level){
-        return new Chains(level);
-    }
+    public static MagicFactory magicFactory = Chains::new;
 }

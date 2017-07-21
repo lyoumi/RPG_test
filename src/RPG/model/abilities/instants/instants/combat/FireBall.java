@@ -2,6 +2,7 @@ package RPG.model.abilities.instants.instants.combat;
 
 import RPG.model.abilities.Magic;
 import RPG.model.abilities.MagicClasses;
+import RPG.model.abilities.MagicFactory;
 import RPG.model.abilities.instants.InstantMagic;
 
 public class FireBall implements InstantMagic {
@@ -55,7 +56,10 @@ public class FireBall implements InstantMagic {
         return MagicClasses.INSTANT;
     }
 
-    public static Magic getMagic(int level) {
-        return new FireBall(level);
-    }
+    public static MagicFactory magicFactory = new MagicFactory() {
+        @Override
+        public Magic getMagicFactory(int level) {
+            return new FireBall(level);
+        }
+    };
 }

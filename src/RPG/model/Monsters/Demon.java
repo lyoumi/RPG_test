@@ -8,8 +8,11 @@ import RPG.model.Items.items.armors.boots.IronBoots;
 import RPG.model.Items.items.armors.helmets.IronHelmet;
 import RPG.model.Items.items.weapons.weapons.Bow;
 import RPG.model.Items.items.weapons.weapons.Sword;
+import RPG.model.abilities.Magic;
 import RPG.model.abilities.debuffs.DebuffMagic;
 import RPG.model.abilities.debuffs.debuffs.damage.BurningJoe;
+import RPG.model.abilities.debuffs.debuffs.disable.Chains;
+import RPG.model.abilities.instants.instants.InstantMagic;
 
 import java.util.*;
 
@@ -34,7 +37,7 @@ public class Demon implements Monster {
     public Demon(Human human){
         this.human = human;
         HERO_LEVEL = human.getLevel();
-        hitPoint = (HERO_LEVEL+1)*70;
+        hitPoint = (HERO_LEVEL+1)*7000;
         damage = (HERO_LEVEL+1)*20;
     }
 
@@ -52,16 +55,21 @@ public class Demon implements Monster {
 
     @Override
     public int getDamage() {
+        if (isBuffed() && Objects.equals(debuffMagic.getClass().getSimpleName(), "Chains")){
+            System.out.println("He in ice");
+            return 0;
+        }
+        else return damage;
 
-        return damage;
     }
 
     @Override
     public int applyDamage(int applyDamage) {
-        if (isBuffed()) {
-            System.out.println("He's in flame!");
-            return applyDamage + debuffMagic.getDamage();
-        }
+        if (isBuffed())
+            if (debuffMagic.getClass().getSimpleName().contentEquals("BurningJoe") ) {
+                System.out.println("He's in flame!");
+                return applyDamage + debuffMagic.getDamage();
+            } else return applyDamage;
         else return applyDamage;
     }
 
@@ -93,8 +101,11 @@ public class Demon implements Monster {
     }
 
     @Override
-    public boolean setDebuff() {
-        debuffMagic = BurningJoe.magicFactory.magicFactory(HERO_LEVEL);
+    public boolean setDebuff(Magic magic) {
+        if (Objects.equals(magic.getClass().getSimpleName(), InstantMagic.FireBall.toString()))
+            debuffMagic = (DebuffMagic) BurningJoe.magicFactory.getMagicFactory(HERO_LEVEL);
+        else if (Objects.equals(magic.getClass().getSimpleName(), InstantMagic.IceChains.toString()))
+            debuffMagic = (DebuffMagic) Chains.magicFactory.getMagicFactory(HERO_LEVEL);
         return true;
     }
 

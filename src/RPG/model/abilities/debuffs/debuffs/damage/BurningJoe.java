@@ -3,6 +3,7 @@ package RPG.model.abilities.debuffs.debuffs.damage;
 import RPG.model.abilities.Magic;
 import RPG.model.abilities.MagicClasses;
 import RPG.model.abilities.MagicFactory;
+import RPG.model.abilities.debuffs.debuffs.DebuffMagicFactory;
 import RPG.model.abilities.debuffs.DebuffMagic;
 
 public class BurningJoe implements DebuffMagic {
@@ -18,7 +19,9 @@ public class BurningJoe implements DebuffMagic {
 
     @Override
     public int getTimeOfAction() {
-        return --timeOfAction;
+        timeOfAction -= 1;
+        System.out.println(timeOfAction);
+        return timeOfAction;
     }
 
     @Override
@@ -33,6 +36,7 @@ public class BurningJoe implements DebuffMagic {
 
     @Override
     public int getDamage() {
+//        System.out.println("He in flames");
         return damage;
     }
 
@@ -41,14 +45,5 @@ public class BurningJoe implements DebuffMagic {
         return MagicClasses.DEBUFF;
     }
 
-    public static BurningJoe getBurningJoe(int level){
-        return new BurningJoe(level);
-    }
-
-    public static MagicFactory magicFactory = new MagicFactory() {
-        @Override
-        public DebuffMagic magicFactory(int level) {
-            return new BurningJoe(level);
-        }
-    };
+    public static MagicFactory magicFactory = BurningJoe::new;
 }

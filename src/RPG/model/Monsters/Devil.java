@@ -4,6 +4,7 @@ import RPG.model.Characters.Human;
 import RPG.model.Items.Items;
 import RPG.model.Items.items.Item;
 import RPG.model.Items.items.weapons.weapons.Bow;
+import RPG.model.abilities.Magic;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -68,7 +69,7 @@ public class Devil implements Monster{
     }
 
     @Override
-    public boolean setDebuff() {
+    public boolean setDebuff(Magic magic) {
         return false;
     }
 

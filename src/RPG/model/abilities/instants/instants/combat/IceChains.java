@@ -1,6 +1,11 @@
 package RPG.model.abilities.instants.instants.combat;
 
+import RPG.model.abilities.Magic;
 import RPG.model.abilities.MagicClasses;
+import RPG.model.abilities.MagicFactory;
+import RPG.model.abilities.debuffs.debuffs.DebuffMagicFactory;
+import RPG.model.abilities.debuffs.DebuffMagic;
+import RPG.model.abilities.debuffs.debuffs.damage.BurningJoe;
 import RPG.model.abilities.instants.InstantMagic;
 
 public class IceChains implements InstantMagic{
@@ -37,7 +42,5 @@ public class IceChains implements InstantMagic{
         return MagicClasses.INSTANT;
     }
 
-    public static IceChains getIceChains(int level){
-        return new IceChains(level);
-    }
+    public static MagicFactory magicFactory = IceChains::new;
 }

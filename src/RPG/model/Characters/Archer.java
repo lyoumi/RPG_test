@@ -12,6 +12,7 @@ import RPG.model.abilities.MagicClasses;
 import RPG.model.abilities.buffs.BuffMagic;
 import RPG.model.abilities.instants.instants.combat.FireBall;
 import RPG.model.abilities.instants.instants.InstantMagic;
+import RPG.model.abilities.instants.instants.combat.IceChains;
 import RPG.model.abilities.instants.instants.healing.SmallHealing;
 
 import java.util.*;
@@ -203,7 +204,14 @@ public class Archer implements Human, UsingItems, Equipment{
             if (getManaPoint() >= healing.getManaCost()){
                 setMana(getManaPoint()-healing.getManaCost());
                 return healing.getDamage();
-            } else return notEnoughOfMana();
+            } else if(Objects.equals(magic.getClass().getSimpleName(), InstantMagic.IceChains.toString())){
+                IceChains iceChains = (IceChains) magic;
+                if(getManaPoint() >= iceChains.getManaCost()){
+                    setMana(getManaPoint()-iceChains.getManaCost());
+                    return iceChains.getDamage();
+                } else return notEnoughOfMana();
+            }
+            else return notEnoughOfMana();
         }else return 0;
     }
 

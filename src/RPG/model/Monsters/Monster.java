@@ -2,6 +2,7 @@ package RPG.model.Monsters;
 
 import RPG.model.Items.Items;
 import RPG.model.Items.items.Item;
+import RPG.model.abilities.Magic;
 
 import java.util.LinkedList;
 
@@ -16,5 +17,5 @@ public interface Monster {
     void setHitPoint(int hitPoint);
     LinkedList<Items> getInventory();
     Item getDroppedItems();
-    boolean setDebuff();
+    boolean setDebuff(Magic magic);
 }

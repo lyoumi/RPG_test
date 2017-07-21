@@ -11,6 +11,7 @@ import RPG.model.Monsters.Monster;
 import RPG.model.abilities.Magic;
 import RPG.model.abilities.instants.instants.InstantMagic;
 import RPG.model.abilities.instants.instants.combat.FireBall;
+import RPG.model.abilities.instants.instants.combat.IceChains;
 import RPG.model.abilities.instants.instants.healing.SmallHealing;
 
 import java.io.IOException;
@@ -137,18 +138,22 @@ public class PlayerController {
             switch (magicChoice){
                 case "FireBall":
                     System.out.println("\n" + monster);
-                    Magic combatMagic = FireBall.getMagic(human.getLevel());
-                    monster.setDebuff();
+                    Magic combatMagic = FireBall.magicFactory.getMagicFactory(human.getLevel());
+                    monster.setDebuff(combatMagic);
                     monster.setHitPoint(monster.getHitPoint() - monster.applyDamage(human.getMagic(combatMagic)));
                     System.out.println(monster.getClass().getSimpleName() + " caught fire for " + human.getMagic(combatMagic) + " getDamage");
                     System.out.println(monster + "\n");
                     break choice;
                 case "SmallHealing":
-                    System.out.println("before healing " + human);
                     Magic healingMagic = SmallHealing.getSmallHealing(human);
                     human.setHitPoint(human.getHitPoint() + human.getMagic(healingMagic));
-                    System.out.println("after healing " + human);
                     break choice;
+                case "IceChains":
+                    Magic disableMagic = IceChains.magicFactory.getMagicFactory(human.getLevel());
+                    monster.setDebuff(disableMagic);
+                    monster.setHitPoint(monster.getHitPoint() - monster.applyDamage(human.getMagic(disableMagic)));
+                    break choice;
+
             }
         }
     }
