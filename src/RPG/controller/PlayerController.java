@@ -237,7 +237,7 @@ public class PlayerController {
 
     /**
      * Пользователю предлагается использовать один из имеющихся у него предметов,
-     * предвартельно ознакомив его с содержимым инвентаря. Доступ к предмету осществляется по списку.
+     * предвартельно ознакомив его с содержимым инвентаря. Доступ к предмету осществляется по индексу.
      * <p>
      * После ввода индекса осуществляется проверка на наличие этого предмета в инвентаре, после чего вызывается
      * метод use() из класса персонажа.
@@ -251,7 +251,10 @@ public class PlayerController {
         if (human.getInventory().contains(human.getInventory().get(--position))){
             ((UsingItems) human).use(human.getInventory().get(--position));
             return true;
-        } else return false;
+        } else {
+            System.out.println("Item not found");
+            return false;
+        }
     }
 
     /**
@@ -264,8 +267,11 @@ public class PlayerController {
      *              Character implementation of {@link Human}
      * @param monster
      *              Monster implementation {@link Monster}
+     *
+     * @return
+     *              boolean result
      */
-    private void drop(Human human, Monster monster, boolean autoDrop) {
+    private boolean drop(Human human, Monster monster, boolean autoDrop) {
         if (autoDrop){
 
             human.experienceDrop(monster.getExperience());
@@ -273,6 +279,7 @@ public class PlayerController {
             ((UsingItems) human).add(monster.getInventory().pollLast());
             ((Equipment)human).equip(monster.getDroppedItems());
 
+            return true;
         } else{
 
             human.experienceDrop(monster.getExperience());
@@ -282,6 +289,8 @@ public class PlayerController {
             Item droppedItems = monster.getDroppedItems();
             System.out.println("Equipment " + droppedItems);
             if (scanner.nextInt() == 1) ((Equipment)human).equip(droppedItems);
+
+            return true;
         }
     }
 
