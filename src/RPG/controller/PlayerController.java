@@ -31,9 +31,9 @@ public class PlayerController {
      * отправить героя добывать ресурсы и опыт, продолжить приключение или же остановить игру.
      *
      * @param human
-     * @throws IOException
+     *          Character implementation {@link Human}
      */
-    private synchronized void beginGame(Human human) throws IOException {
+    private synchronized void beginGame(Human human){
 
         System.out.println(human);
 
@@ -86,18 +86,23 @@ public class PlayerController {
      * Остановка цикла происходит при вводе с клавиатуры 0
      *
      * @param human
+     *          Character implementation {@link Human}
      * @return
-     * @throws IOException
+     *          String result of walking
      */
-    private String walking(Human human) throws IOException{
-        while (System.in.available()==0) {
-            human.experienceDrop(0.0000001);
-            if (random.nextInt(10000000) == 999999) {
-                Items item = itemsList.get(random.nextInt(sizeOfItems));
-                System.out.println("I found " + item);
-                human.getInventory().add(item);
+    private String walking(Human human){
+        try{
+            while (System.in.available()==0) {
+                human.experienceDrop(0.0000001);
+                if (random.nextInt(10000000) == 999999) {
+                    Items item = itemsList.get(random.nextInt(sizeOfItems));
+                    System.out.println("I found " + item);
+                    human.getInventory().add(item);
+                }
+                if (human.getInventory().size() > ((human.getLevel()+1)*10)) break;
             }
-            if (human.getInventory().size() > ((human.getLevel()+1)*10)) break;
+        }catch (IOException e){
+            e.printStackTrace();
         }
         return "The walk is over. Your stats: " + human;
     }
@@ -106,7 +111,9 @@ public class PlayerController {
      * Метод симулирующий бой между героем и монстром
      * В ходе боя игрок может покинуть бой для дальнейшего приключения, или же использовать имеющиеся у него веши
      * @param human
+     *              Character implementation {@link Human}
      * @param monster
+     *              Monster implementation {@link Monster}
      */
     private synchronized String manualBattle(Human human, Monster monster){
         battle:
@@ -150,44 +157,51 @@ public class PlayerController {
      * отправится в путешествие для их поиска (walking())
      *
      * @param human
-     * @throws IOException
+     *          Character implementation {@link Human}
      */
-    private void autoBattle(Human human) throws IOException {
-        while (System.in.available()==0){
-            if (human.getInventory().isEmpty()) {
-                System.out.println("I need go walk.... Pls, wait some time, I will be back\n" + human);
-                String walkingResults = walking(human);
-                System.out.println(walkingResults);
-            }
-            if (random.nextInt(10000000) == 9999999){
-                Monster monster = spawn(human);
-                if (Objects.equals(monster.getClass().getSimpleName(), Devil.class.getSimpleName()))
-                    System.out.println(monster);
-                while ((human.getHitPoint() > 0) && (monster.getHitPoint() > 0)){
-                    autoHeal(human);
-                    punch(human, monster);
-                    if (Objects.equals(monster.getClass().getSimpleName(), Devil.class.getSimpleName()))
-                        System.out.println(human);
+    private void autoBattle(Human human){
+        try{
+            while (System.in.available()==0){
+                if (human.getInventory().isEmpty()) {
+                    System.out.println("I need go walk.... Pls, wait some time, I will be back\n" + human);
+                    String walkingResults = walking(human);
+                    System.out.println(walkingResults);
                 }
-                human.getInventory().trimToSize();
+                if (random.nextInt(10000000) == 9999999){
+                    Monster monster = spawn(human);
+                    if (Objects.equals(monster.getClass().getSimpleName(), Devil.class.getSimpleName()))
+                        System.out.println(monster);
+                    while ((human.getHitPoint() > 0) && (monster.getHitPoint() > 0)){
+                        autoHeal(human);
+                        punch(human, monster);
+                        if (Objects.equals(monster.getClass().getSimpleName(), Devil.class.getSimpleName()))
+                            System.out.println(human);
+                    }
+                    human.getInventory().trimToSize();
 
-                if (human.getHitPoint() <= 0) {
-                    System.err.println("YOU ARE DEAD");
-                    exit();
-                } else if (monster.getHitPoint() <= 0) {
-                    if (Objects.equals(monster.getClass().getSimpleName(), Devil.class.getSimpleName()))
-                        System.err.println("DEVIL HAS FALLEN");
-                    drop(human, monster, true);
+                    if (human.getHitPoint() <= 0) {
+                        System.err.println("YOU ARE DEAD");
+                        exit();
+                    } else if (monster.getHitPoint() <= 0) {
+                        if (Objects.equals(monster.getClass().getSimpleName(), Devil.class.getSimpleName()))
+                            System.err.println("DEVIL HAS FALLEN");
+                        drop(human, monster, true);
+                    }
                 }
             }
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 
     /**
      * Метод, реализующий удар монстра и героя. Возвращает true после удара
      * @param human
+     *          Character implementation of {@link Human}
      * @param monster
+     *          Monster implementation of {@link Monster}
      * @return
+     *          boolean result of punch
      */
     private boolean punch(Human human, Monster monster){
         System.out.println(monster);
@@ -201,9 +215,11 @@ public class PlayerController {
      * Метод предназначенный для автоматического восполнения здоровья
      * Возвращает true в случае успешного восполнения здоровья и false в случае если этого не произошло
      * @param human
+     *          Character implementation of {@link Human}
      * @return
+     *          boolean result of heal
      */
-    boolean autoHeal(Human human){
+    private boolean autoHeal(Human human){
         if ((human.getHitPoint() < (human.getMaxHitPoint()/10)) && (human.getHitPoint() < 30) && (human.getInventory().contains(Items.BigHPBottle))) {
             ((UsingItems)human).use(Items.BigHPBottle);
             System.out.println(human);
@@ -225,12 +241,17 @@ public class PlayerController {
      * <p>
      * После ввода индекса осуществляется проверка на наличие этого предмета в инвентаре, после чего вызывается
      * метод use() из класса персонажа.
+     *
+     * @return
+     *          boolean result of using item
      */
-    private void useItem(Human human) {
+    private boolean useItem(Human human) {
         System.out.println("Use your items? " + human.getInventory() + "\nPls, select by index....");
         int position = scanner.nextInt();
-        if (human.getInventory().contains(human.getInventory().get(position)))
-            ((UsingItems) human).use(human.getInventory().get(position));
+        if (human.getInventory().contains(human.getInventory().get(--position))){
+            ((UsingItems) human).use(human.getInventory().get(--position));
+            return true;
+        } else return false;
     }
 
     /**
@@ -240,7 +261,9 @@ public class PlayerController {
      * Входные параметры:
      *
      * @param human
+     *              Character implementation of {@link Human}
      * @param monster
+     *              Monster implementation {@link Monster}
      */
     private void drop(Human human, Monster monster, boolean autoDrop) {
         if (autoDrop){
@@ -265,7 +288,10 @@ public class PlayerController {
     /**
      * Метод, отвечающий за генерацию монстра
      * @param human
+     *          Character implementation of {@link Human}
      * @return
+     *          New implementation of {@link Monster} with incremented human level
+     *
      */
     private Monster spawn(Human human) {
         if (random.nextInt(100) == 99) return new Devil(human);
@@ -280,13 +306,7 @@ public class PlayerController {
         System.out.println("\nGAME OVER\n");
     }
 
-    /**
-     * Main-method
-     *
-     * @param args
-     * @throws IOException
-     */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
         PlayerController playerController = new PlayerController();
         System.out.println("Hello in Middle-Earth....");
         System.out.println("Choose your class: archer, berserk, wizard....");

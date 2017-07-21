@@ -51,11 +51,6 @@ public class Archer implements Human, UsingItems, Equipment{
         return getExperience() >= ((level+1)*150);
     }
 
-    @Override
-    public int getLevel() {
-        return level;
-    }
-
     private double getExperience() {
         return experience;
     }
@@ -81,11 +76,6 @@ public class Archer implements Human, UsingItems, Equipment{
             System.out.println(this);
             return true;
         } else return false;
-    }
-
-    @Override
-    public void experienceDrop(double experience){
-        setExperience(experience);
     }
 
     private int getAgility() {
@@ -176,6 +166,22 @@ public class Archer implements Human, UsingItems, Equipment{
             }
         }
         return defence;
+    }
+
+    private void updateStats(){
+        setHitPoint(getPower()*10);
+        setDamage(getAgility()*getMultiplierAgility());
+        setMana(getAgility()*getMultiplierIntelligence());
+    }
+
+    @Override
+    public void experienceDrop(double experience){
+        setExperience(experience);
+    }
+
+    @Override
+    public int getLevel() {
+        return level;
     }
 
     @Override
@@ -287,12 +293,6 @@ public class Archer implements Human, UsingItems, Equipment{
             equipmentItems.put(armor.EQUIPMENT_ITEMS(), armor);
             updateStats();
         }
-    }
-
-    private void updateStats(){
-        setHitPoint(getPower()*10);
-        setDamage(getAgility()*getMultiplierAgility());
-        setMana(getAgility()*getMultiplierIntelligence());
     }
 
     @Override
