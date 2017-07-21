@@ -9,7 +9,9 @@ import RPG.model.Monsters.Demon;
 import RPG.model.Monsters.Devil;
 import RPG.model.Monsters.Monster;
 import RPG.model.abilities.Magic;
+import RPG.model.abilities.instants.instants.InstantMagic;
 import RPG.model.abilities.instants.instants.combat.FireBall;
+import RPG.model.abilities.instants.instants.healing.SmallHealing;
 
 import java.io.IOException;
 import java.util.*;
@@ -104,12 +106,7 @@ public class PlayerController {
                         useItem(human);
                         break choice;
                     case "use magic":
-                        System.out.println("\n" + monster);
-                        Magic magic = FireBall.getMagic(human.getLevel());
-                        monster.setDebuff();
-                        monster.setHitPoint(monster.getHitPoint() - monster.applyDamage(human.getMagic(magic)));
-                        System.out.println(monster.getClass().getSimpleName() + " caught fire for " + human.getMagic(magic) + " getDamage");
-                        System.out.println(monster + "\n");
+                        useMagic(human, monster);
                         break choice;
                     case "continue":
                         break choice;
@@ -125,12 +122,44 @@ public class PlayerController {
     }
 
     /**
+     * Использование магии
+     *
+     * @param human
+     *          Character implementation of {@link Human}
+     * @param monster
+     *          Monster implementation of {@link Monster}
+     */
+    private void useMagic(Human human, Monster monster){
+        System.out.println("Select magic: " + Arrays.toString(InstantMagic.values()));
+        choice:
+        while(true){
+            String magicChoice = scanner.nextLine();
+            switch (magicChoice){
+                case "FireBall":
+                    System.out.println("\n" + monster);
+                    Magic combatMagic = FireBall.getMagic(human.getLevel());
+                    monster.setDebuff();
+                    monster.setHitPoint(monster.getHitPoint() - monster.applyDamage(human.getMagic(combatMagic)));
+                    System.out.println(monster.getClass().getSimpleName() + " caught fire for " + human.getMagic(combatMagic) + " getDamage");
+                    System.out.println(monster + "\n");
+                    break choice;
+                case "SmallHealing":
+                    System.out.println("before healing " + human);
+                    Magic healingMagic = SmallHealing.getSmallHealing(human);
+                    human.setHitPoint(human.getHitPoint() + human.getMagic(healingMagic));
+                    System.out.println("after healing " + human);
+                    break choice;
+            }
+        }
+    }
+
+    /**
      * Режим автоматического ведения боя. В случае с малым количеством здоровья персонаж будет способен
      * самостоятельно восстановить здоровье, а в случае отсутствия предметов для восстановления
      * отправится в путешествие для их поиска (walking())
      *
      * @param human
-     *          Character implementation {@link Human}
+     *          Character implementation of {@link Human}
      */
     private void autoBattle(Human human){
         try{
@@ -173,7 +202,7 @@ public class PlayerController {
      * Остановка цикла происходит при вводе с клавиатуры 0
      *
      * @param human
-     *          Character implementation {@link Human}
+     *          Character implementation of {@link Human}
      * @return
      *          String result of walking
      */
@@ -266,7 +295,7 @@ public class PlayerController {
      * @param human
      *              Character implementation of {@link Human}
      * @param monster
-     *              Monster implementation {@link Monster}
+     *              Monster implementation of {@link Monster}
      *
      * @return
      *              boolean result

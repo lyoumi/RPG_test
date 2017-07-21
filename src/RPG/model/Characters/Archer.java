@@ -12,6 +12,7 @@ import RPG.model.abilities.MagicClasses;
 import RPG.model.abilities.buffs.BuffMagic;
 import RPG.model.abilities.instants.instants.combat.FireBall;
 import RPG.model.abilities.instants.instants.InstantMagic;
+import RPG.model.abilities.instants.instants.healing.SmallHealing;
 
 import java.util.*;
 
@@ -133,6 +134,11 @@ public class Archer implements Human, UsingItems, Equipment{
         return true;
     }
 
+    private int notEnoughOfMana(){
+        System.out.println("Not enough mana!");
+        return 0;
+    }
+
     private int getPower() {
         return power + getSummaryAdditionPower();
     }
@@ -191,10 +197,13 @@ public class Archer implements Human, UsingItems, Equipment{
             if(getManaPoint() >= fireBall.getManaCost()){
                 setMana(getManaPoint()-fireBall.getManaCost());
                 return fireBall.getDamage();
-            } else {
-                System.out.println("Not enough mana!");
-                return 0;
-            }
+            } else return notEnoughOfMana();
+        }else if (Objects.equals(magic.getClass().getSimpleName(), InstantMagic.SmallHealing.toString())){
+            SmallHealing healing = (SmallHealing) magic;
+            if (getManaPoint() >= healing.getManaCost()){
+                setMana(getManaPoint()-healing.getManaCost());
+                return healing.getDamage();
+            } else return notEnoughOfMana();
         }else return 0;
     }
 
