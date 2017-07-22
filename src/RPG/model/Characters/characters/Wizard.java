@@ -1,4 +1,4 @@
-package RPG.model.Characters.Characters;
+package RPG.model.Characters.characters;
 
 import RPG.model.Characters.CharacterFactory;
 import RPG.model.Characters.Human;

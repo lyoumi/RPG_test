@@ -1,15 +1,15 @@
 package RPG.controller;
 
 import RPG.model.Characters.*;
-import RPG.model.Characters.Characters.Archer;
-import RPG.model.Characters.Characters.Berserk;
-import RPG.model.Characters.Characters.Wizard;
+import RPG.model.Characters.characters.Archer;
+import RPG.model.Characters.characters.Berserk;
+import RPG.model.Characters.characters.Wizard;
 import RPG.model.Items.Equipment;
 import RPG.model.Items.Items;
 import RPG.model.Items.UsingItems;
 import RPG.model.Items.items.Item;
-import RPG.model.Monsters.Demon;
-import RPG.model.Monsters.Devil;
+import RPG.model.Monsters.monsters.Demon;
+import RPG.model.Monsters.monsters.Devil;
 import RPG.model.Monsters.Monster;
 import RPG.model.abilities.Magic;
 import RPG.model.abilities.instants.instants.InstantMagic;
@@ -343,8 +343,8 @@ public class PlayerController {
      *
      */
     private Monster spawn(Human human) {
-        if (random.nextInt(100) == 99) return new Devil(human);
-        return new Demon(human);
+        if (random.nextInt(100) == 99) return Devil.monsterFactory.createNewMonster(human);
+        else return Demon.monsterFactory.createNewMonster(human);
     }
 
 

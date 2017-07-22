@@ -1,9 +1,11 @@
-package RPG.model.Monsters;
+package RPG.model.Monsters.monsters;
 
 import RPG.model.Characters.Human;
 import RPG.model.Items.Items;
 import RPG.model.Items.items.Item;
 import RPG.model.Items.items.weapons.weapons.Bow;
+import RPG.model.Monsters.Monster;
+import RPG.model.Monsters.MonsterFactory;
 import RPG.model.abilities.Magic;
 
 import java.util.Arrays;
@@ -11,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-public class Devil implements Monster{
+public class Devil implements Monster {
 
     private static final List<Items> itemsList = Arrays.asList(Items.values());
     private static final int sizeOfItems = itemsList.size();
@@ -25,7 +27,7 @@ public class Devil implements Monster{
     private int experience = 100;
     private LinkedList<Items> inventory = new LinkedList<>();
 
-    public Devil(Human human){
+    private Devil(Human human){
         this.human = human;
         HERO_LEVEL = human.getLevel();
         hitPoint = (HERO_LEVEL+1)*500;
@@ -76,4 +78,6 @@ public class Devil implements Monster{
     public String toString(){
         return Devil.class.getSimpleName() +": HP " + getHitPoint() + "; ATK +" + getDamageForBattle();
     }
+
+    public static MonsterFactory monsterFactory = Devil::new;
 }

@@ -1,4 +1,4 @@
-package RPG.model.Monsters;
+package RPG.model.Monsters.monsters;
 
 import RPG.model.Characters.Human;
 import RPG.model.Items.Items;
@@ -8,6 +8,8 @@ import RPG.model.Items.items.armors.boots.IronBoots;
 import RPG.model.Items.items.armors.helmets.IronHelmet;
 import RPG.model.Items.items.weapons.weapons.Bow;
 import RPG.model.Items.items.weapons.weapons.Sword;
+import RPG.model.Monsters.Monster;
+import RPG.model.Monsters.MonsterFactory;
 import RPG.model.abilities.Magic;
 import RPG.model.abilities.debuffs.DebuffMagic;
 import RPG.model.abilities.debuffs.debuffs.damage.BurningJoe;
@@ -34,14 +36,12 @@ public class Demon implements Monster {
 
     private DebuffMagic debuffMagic;
 
-    public Demon(Human human){
+    private Demon(Human human){
         this.human = human;
         HERO_LEVEL = human.getLevel();
         hitPoint = (HERO_LEVEL+1)*70;
         damage = (HERO_LEVEL+1)*20;
     }
-
-
 
     private boolean isBuffed() {
         return !Objects.equals(debuffMagic, null);
@@ -122,4 +122,6 @@ public class Demon implements Monster {
     public String toString(){
         return "Name: " + Demon.class.getSimpleName() + "; Damage: " + getDamage() + "; HitPoint: " + getHitPoint();
     }
+
+    public static MonsterFactory monsterFactory = Demon::new;
 }
