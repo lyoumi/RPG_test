@@ -2,6 +2,8 @@ package RPG.model.Items.items.armors.helmets;
 
 import RPG.model.Characters.Human;
 import RPG.model.Items.EquipmentItems;
+import RPG.model.Items.items.Item;
+import RPG.model.Items.items.ItemsFactory;
 import RPG.model.Items.items.armors.Armor;
 import RPG.model.abilities.Magic;
 import RPG.model.abilities.buffs.buffs.ArchersBuff;
@@ -16,7 +18,7 @@ public class IronHelmet implements Armor{
     private Human human;
     private Magic magic;
 
-    public IronHelmet(Human human){
+    private IronHelmet(Human human){
         this.human = human;
         this.itemLevel = human.getLevel() + 1;
         this.defence = getItemLevel() * 10 + 5;
@@ -51,4 +53,6 @@ public class IronHelmet implements Armor{
     public String toString(){
         return IronHelmet.class.getSimpleName() + ": DEF +" + getDefence();
     }
+
+    public static ItemsFactory itemsFactory = IronHelmet::new;
 }

@@ -37,7 +37,7 @@ public class Demon implements Monster {
     public Demon(Human human){
         this.human = human;
         HERO_LEVEL = human.getLevel();
-        hitPoint = (HERO_LEVEL+1)*7000;
+        hitPoint = (HERO_LEVEL+1)*70;
         damage = (HERO_LEVEL+1)*20;
     }
 
@@ -101,11 +101,11 @@ public class Demon implements Monster {
 
     public Item getDroppedItems(){
         switch (random.nextInt(5)){
-            case 0: return new Sword(human);
-            case 1: return new IronChest(human);
-            case 2: return new IronHelmet(human);
-            case 3: return new IronBoots(human);
-            case 4: return new Bow(human);
+            case 0: return Sword.itemsFactory.createNewItem(human);
+            case 1: return IronChest.itemsFactory.createNewItem(human);
+            case 2: return IronHelmet.itemsFactory.createNewItem(human);
+            case 3: return IronBoots.itemsFactory.createNewItem(human);
+            case 4: return Bow.itemsFactory.createNewItem(human);
             default: return null;
         }
     }

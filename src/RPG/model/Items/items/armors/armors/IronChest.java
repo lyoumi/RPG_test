@@ -2,6 +2,7 @@ package RPG.model.Items.items.armors.armors;
 
 import RPG.model.Characters.Human;
 import RPG.model.Items.EquipmentItems;
+import RPG.model.Items.items.ItemsFactory;
 import RPG.model.Items.items.armors.Armor;
 import RPG.model.abilities.Magic;
 import RPG.model.abilities.buffs.buffs.ArchersBuff;
@@ -16,7 +17,7 @@ public class IronChest implements Armor {
     private Human human;
     private Magic magic;
 
-    public IronChest(Human human){
+    private IronChest(Human human){
         this.human = human;
         this.itemLevel = human.getLevel() + 1;
         this.defence = this.getItemLevel() * 10 + 5;
@@ -51,4 +52,6 @@ public class IronChest implements Armor {
     public String toString(){
         return IronChest.class.getSimpleName() + ": DEF +" + getDefence();
     }
+
+    public static ItemsFactory itemsFactory = IronChest::new;
 }

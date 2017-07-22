@@ -2,6 +2,7 @@ package RPG.model.abilities.instants.instants.healing;
 
 import RPG.model.Characters.Human;
 import RPG.model.abilities.MagicClasses;
+import RPG.model.abilities.MagicFactory;
 import RPG.model.abilities.instants.InstantMagic;
 
 public class SmallHealing implements InstantMagic{

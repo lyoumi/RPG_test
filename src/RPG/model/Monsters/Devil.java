@@ -65,7 +65,7 @@ public class Devil implements Monster{
 
     @Override
     public Item getDroppedItems() {
-        return new Bow(human);
+        return Bow.itemsFactory.createNewItem(human);
     }
 
     @Override

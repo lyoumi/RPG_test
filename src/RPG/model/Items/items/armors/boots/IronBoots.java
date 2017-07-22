@@ -2,6 +2,7 @@ package RPG.model.Items.items.armors.boots;
 
 import RPG.model.Characters.Human;
 import RPG.model.Items.EquipmentItems;
+import RPG.model.Items.items.ItemsFactory;
 import RPG.model.Items.items.armors.Armor;
 import RPG.model.abilities.Magic;
 import RPG.model.abilities.buffs.buffs.ArchersBuff;
@@ -16,7 +17,7 @@ public class IronBoots implements Armor{
     private Magic magic;
     Human human;
 
-    public IronBoots(Human human){
+    private IronBoots(Human human){
         this.human = human;
         this.itemLevel = human.getLevel() + 1;
         this.defence = getItemLevel() * 10 + 5;
@@ -52,4 +53,6 @@ public class IronBoots implements Armor{
     public String toString(){
         return IronBoots.class.getSimpleName() + ": DEF +" + getDefence();
     }
+
+    public static ItemsFactory itemsFactory = IronBoots::new;
 }

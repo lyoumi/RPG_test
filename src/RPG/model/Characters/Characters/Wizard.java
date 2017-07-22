@@ -1,5 +1,7 @@
-package RPG.model.Characters;
+package RPG.model.Characters.Characters;
 
+import RPG.model.Characters.CharacterFactory;
+import RPG.model.Characters.Human;
 import RPG.model.Items.Items;
 import RPG.model.abilities.Magic;
 
@@ -8,13 +10,13 @@ import java.util.ArrayList;
 /**
  * Created by pikachu on 13.07.17.
  */
-public class Berserk implements Human {
+public class Wizard implements Human {
 
+    private int damage = getIntelligence()*2;
+    private int agility = 12;
+    private int intelligence = 20;
+    private int power = 10;
     private int hitPoint = getPower()*10;
-    private int damage = getPower()*2;
-    private int agility = 9;
-    private int intelligence = 10;
-    private int power = 21;
     private int experience = 0;
     private int level = 0;
 
@@ -23,20 +25,24 @@ public class Berserk implements Human {
         return true;
     }
 
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
-
     public int getAgility() {
         return agility;
     }
 
-    public void setAgility(int agility) {
-        this.agility = agility;
-    }
-
     public int getIntelligence() {
         return intelligence;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public void setAgility(int agility) {
+        this.agility = agility;
     }
 
     public void setIntelligence(int intelligence) {
@@ -50,10 +56,6 @@ public class Berserk implements Human {
     @Override
     public int getMagic(Magic magic) {
         return 0;
-    }
-
-    public int getPower() {
-        return power;
     }
 
     public void setPower(int power) {
@@ -93,12 +95,12 @@ public class Berserk implements Human {
 
     @Override
     public int getHitPoint() {
-        return hitPoint;
+        return 0;
     }
 
     @Override
     public void setHitPoint(int hitPoint) {
-        this.hitPoint = hitPoint;
+
     }
 
     @Override
@@ -132,4 +134,6 @@ public class Berserk implements Human {
     public void experienceDrop(double experience) {
 
     }
+
+    public static CharacterFactory characterFactory = Wizard::new;
 }

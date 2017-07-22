@@ -2,6 +2,7 @@ package RPG.model.Items.items.weapons.weapons;
 
 import RPG.model.Characters.Human;
 import RPG.model.Items.EquipmentItems;
+import RPG.model.Items.items.ItemsFactory;
 import RPG.model.Items.items.weapons.Weapons;
 import RPG.model.abilities.Magic;
 import RPG.model.abilities.buffs.buffs.ArchersBuff;
@@ -16,7 +17,7 @@ public class Sword implements Weapons {
     private Human human;
     private Magic magic;
 
-    public Sword(Human human){
+    private Sword(Human human){
         this.human = human;
         this.level = human.getLevel() + 1;
         this.damage = this.getLevel() * 10 + 5;
@@ -51,4 +52,6 @@ public class Sword implements Weapons {
     public String toString(){
         return Sword.class.getSimpleName() + ": ATK +" + getDamage();
     }
+
+    public static ItemsFactory itemsFactory = Sword::new;
 }

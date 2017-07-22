@@ -1,6 +1,9 @@
 package RPG.controller;
 
 import RPG.model.Characters.*;
+import RPG.model.Characters.Characters.Archer;
+import RPG.model.Characters.Characters.Berserk;
+import RPG.model.Characters.Characters.Wizard;
 import RPG.model.Items.Equipment;
 import RPG.model.Items.Items;
 import RPG.model.Items.UsingItems;
@@ -361,13 +364,13 @@ public class PlayerController {
             String s = scanner.nextLine();
             switch (s) {
                 case "archer":
-                    playerController.beginGame(new Archer());
+                    playerController.beginGame(Archer.characterFactory.createNewCharacter());
                     break choice;
                 case "berserk":
-                    playerController.beginGame(new Berserk());
+                    playerController.beginGame(Berserk.characterFactory.createNewCharacter());
                     break choice;
                 case "wizard":
-                    playerController.beginGame(new Wizard());
+                    playerController.beginGame(Wizard.characterFactory.createNewCharacter());
                     break choice;
                 default:
                     System.out.println("Pls, make the correct choice....");

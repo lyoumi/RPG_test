@@ -1,5 +1,7 @@
-package RPG.model.Characters;
+package RPG.model.Characters.Characters;
 
+import RPG.model.Characters.CharacterFactory;
+import RPG.model.Characters.Human;
 import RPG.model.Items.Equipment;
 import RPG.model.Items.EquipmentItems;
 import RPG.model.Items.Items;
@@ -27,7 +29,7 @@ public class Archer implements Human, UsingItems, Equipment{
     private int power = 11;
     private double experience = 0;
     private int level = 0;
-    private int damage = getAgility()*getMultiplierAgility();
+    private int baseDamage = getAgility()*getMultiplierAgility();
     private int hitPoint = getPower()*getMultiplierPower();
     private int mana = getIntelligence()*getMultiplierIntelligence();
     private ArrayList<Items> inventory = new ArrayList<>();
@@ -215,10 +217,14 @@ public class Archer implements Human, UsingItems, Equipment{
         }else return 0;
     }
 
+    private int getBaseDamage(){
+        return baseDamage;
+    }
+
     @Override
     public int getDamage() {
-        if (equipmentItems.containsKey(EquipmentItems.HANDS)) return damage + weapons.getDamage();
-        else return damage;
+        if (equipmentItems.containsKey(EquipmentItems.HANDS)) return getBaseDamage() + weapons.getDamage();
+        else return getBaseDamage();
     }
 
     @Override
@@ -228,7 +234,7 @@ public class Archer implements Human, UsingItems, Equipment{
 
     @Override
     public void setDamage(int damage) {
-        this.damage = damage;
+        this.baseDamage = damage;
     }
 
     @Override
@@ -327,4 +333,6 @@ public class Archer implements Human, UsingItems, Equipment{
                 "; DMG: " + getDamage() +
                 "; DEF: " + getDefence();
     }
+
+    public static CharacterFactory characterFactory = Archer::new;
 }

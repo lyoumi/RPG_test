@@ -1,9 +1,7 @@
 package RPG.model.abilities.debuffs.debuffs.damage;
 
-import RPG.model.abilities.Magic;
 import RPG.model.abilities.MagicClasses;
 import RPG.model.abilities.MagicFactory;
-import RPG.model.abilities.debuffs.debuffs.DebuffMagicFactory;
 import RPG.model.abilities.debuffs.DebuffMagic;
 
 public class BurningJoe implements DebuffMagic {
