@@ -1,17 +1,18 @@
 package RPG.model.Monsters.monsters;
 
 import RPG.model.Characters.Human;
+import RPG.model.Items.EquipmentItems;
 import RPG.model.Items.Items;
 import RPG.model.Items.items.Item;
+import RPG.model.Items.items.armors.Armor;
+import RPG.model.Items.items.weapons.Weapons;
 import RPG.model.Items.items.weapons.weapons.Bow;
 import RPG.model.Monsters.Monster;
 import RPG.model.Monsters.MonsterFactory;
+import RPG.model.Monsters.equipment.MonsterEquipment;
 import RPG.model.abilities.Magic;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Devil implements Monster {
 
@@ -24,14 +25,24 @@ public class Devil implements Monster {
 
     private int damage;
     private int hitPoint;
-    private int experience = 100;
     private LinkedList<Items> inventory = new LinkedList<>();
+
+    private Map<EquipmentItems, Item> equipmentOfDevil;
 
     private Devil(Human human){
         this.human = human;
         HERO_LEVEL = human.getLevel();
         hitPoint = (HERO_LEVEL+1)*500;
         damage = (HERO_LEVEL+1)*100;
+        setEquipmentOfDevil(human);
+    }
+
+    private int getDamage(){
+        return damage;
+    }
+
+    private void setEquipmentOfDevil(Human human){
+        equipmentOfDevil = MonsterEquipment.monsterEquipmentFactory.getMonsterEquipment(human);
     }
 
     @Override
@@ -39,14 +50,26 @@ public class Devil implements Monster {
         return 100000;
     }
 
+    private int getDefence() {
+        int defence = 0;
+        for (Map.Entry<EquipmentItems, Item> entry :
+                equipmentOfDevil.entrySet()) {
+            if (!entry.getValue().EQUIPMENT_ITEMS().equals(EquipmentItems.HANDS)) {
+                defence += ((Armor) entry.getValue()).getDefence();
+            }
+        }
+        return defence;
+    }
+
     @Override
     public int getDamageForBattle() {
-        return damage;
+        Weapons weapons = (Weapons)equipmentOfDevil.get(EquipmentItems.HANDS);
+        return getDamage() + weapons.getDamage();
     }
 
     @Override
     public int applyDamage(int applyDamage) {
-        return applyDamage;
+        return applyDamage-getDefence();
     }
 
     @Override

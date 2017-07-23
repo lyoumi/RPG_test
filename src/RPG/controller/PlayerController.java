@@ -11,6 +11,7 @@ import RPG.model.Items.items.Item;
 import RPG.model.Monsters.monsters.Demon;
 import RPG.model.Monsters.monsters.Devil;
 import RPG.model.Monsters.Monster;
+import RPG.model.Monsters.monsters.Legionnaire;
 import RPG.model.abilities.Magic;
 import RPG.model.abilities.instants.instants.InstantMagic;
 import RPG.model.abilities.instants.instants.combat.FireBall;
@@ -343,7 +344,9 @@ public class PlayerController {
      *
      */
     private Monster spawn(Human human) {
-        if (random.nextInt(100) == 99) return Devil.monsterFactory.createNewMonster(human);
+        int chance = random.nextInt(100);
+        if (chance == 99) return Devil.monsterFactory.createNewMonster(human);
+        else if ((chance > 0)&&(chance < 25)) return Legionnaire.monsterFactory.createNewMonster(human);
         else return Demon.monsterFactory.createNewMonster(human);
     }
 
