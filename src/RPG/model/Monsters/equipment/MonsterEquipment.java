@@ -20,7 +20,7 @@ public class MonsterEquipment {
         equipment.put(IronChest.itemsFactory.createNewItem(human).EQUIPMENT_ITEMS(), IronChest.itemsFactory.createNewItem(human));
         equipment.put(IronBoots.itemsFactory.createNewItem(human).EQUIPMENT_ITEMS(), IronBoots.itemsFactory.createNewItem(human));
         return equipment;
-    };
+    }
 
     public static MonsterEquipmentFactory monsterEquipmentFactory = new MonsterEquipment()::initEquipment;
 }

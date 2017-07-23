@@ -34,7 +34,7 @@ public class Archer implements Human, UsingItems, Equipment{
     private int mana = getIntelligence()*getMultiplierIntelligence();
     private ArrayList<Items> inventory = new ArrayList<>();
     private Map<EquipmentItems, Item> equipmentItems = new HashMap<>();
-    private Weapons weapons;
+    private Weapons weapon;
     private Armor armor;
     private int defence;
     private Magic magic;
@@ -223,7 +223,7 @@ public class Archer implements Human, UsingItems, Equipment{
 
     @Override
     public int getDamage() {
-        if (equipmentItems.containsKey(EquipmentItems.HANDS)) return getBaseDamage() + weapons.getDamage();
+        if (equipmentItems.containsKey(EquipmentItems.HANDS)) return getBaseDamage() + weapon.getDamage();
         else return getBaseDamage();
     }
 
@@ -307,15 +307,33 @@ public class Archer implements Human, UsingItems, Equipment{
     @Override
     public void equip(Item item) {
         if (item.EQUIPMENT_ITEMS().equals(EquipmentItems.HANDS)){
-            weapons = (Weapons) item;
-            System.err.println(weapons.getName() + " equipped");
-            equipmentItems.put(weapons.EQUIPMENT_ITEMS(), weapons);
-            updateStats();
+            weapon = (Weapons) item;
+            Weapons usingWeapon = (Weapons) equipmentItems.get(EquipmentItems.HANDS);
+            if (equipmentItems.containsKey(item.EQUIPMENT_ITEMS())){
+                if (weapon.getDamage() > usingWeapon.getDamage()){
+                    System.err.println(weapon.getName() + " equipped");
+                    equipmentItems.put(weapon.EQUIPMENT_ITEMS(), weapon);
+                    updateStats();
+                }
+            } else {
+                System.err.println(weapon.getName() + " equipped");
+                equipmentItems.put(weapon.EQUIPMENT_ITEMS(), weapon);
+                updateStats();
+            }
         } else {
             armor = (Armor) item;
-            System.err.println(armor.getName() + " equipped");
-            equipmentItems.put(armor.EQUIPMENT_ITEMS(), armor);
-            updateStats();
+            Armor usingArmor = (Armor)equipmentItems.get(item.EQUIPMENT_ITEMS());
+            if (equipmentItems.containsKey(item.EQUIPMENT_ITEMS())){
+                if (armor.getDefence() > usingArmor.getDefence()){
+                    System.err.println(armor.getName() + " equipped");
+                    equipmentItems.put(armor.EQUIPMENT_ITEMS(), armor);
+                    updateStats();
+                }
+            } else {
+                System.err.println(armor.getName() + " equipped");
+                equipmentItems.put(armor.EQUIPMENT_ITEMS(), armor);
+                updateStats();
+            }
         }
     }
 

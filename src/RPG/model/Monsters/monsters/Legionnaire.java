@@ -138,7 +138,7 @@ public class Legionnaire implements Monster {
     }
 
     public String toString(){
-        return "Name: " + Demon.class.getSimpleName() + "; Damage: " + getDamage() + "; HitPoint: " + getHitPoint();
+        return "Name: " + Legionnaire.class.getSimpleName() + "; Damage: " + getDamage() + "; HitPoint: " + getHitPoint();
     }
 
     public static MonsterFactory monsterFactory = Legionnaire::new;

@@ -356,6 +356,7 @@ public class PlayerController {
      */
     private void exit(){
         System.out.println("\nGAME OVER\n");
+        System.exit(0);
     }
 
     public static void main(String[] args){

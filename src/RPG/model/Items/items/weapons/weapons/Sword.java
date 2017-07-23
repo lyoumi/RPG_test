@@ -7,6 +7,8 @@ import RPG.model.Items.items.weapons.Weapons;
 import RPG.model.abilities.Magic;
 import RPG.model.abilities.buffs.buffs.ArchersBuff;
 
+import java.util.Random;
+
 /**
  * Created by pikachu on 17.07.17.
  */
@@ -17,10 +19,12 @@ public class Sword implements Weapons {
     private Human human;
     private Magic magic;
 
+    private Random random = new Random();
+
     private Sword(Human human){
         this.human = human;
-        this.level = human.getLevel() + 1;
-        this.damage = this.getLevel() * 10 + 5;
+        this.level = random.nextInt(human.getLevel() + 1);
+        this.damage = this.getLevel() * 5 + 5;
         this.magic = ArchersBuff.getMagic(human);
     }
 

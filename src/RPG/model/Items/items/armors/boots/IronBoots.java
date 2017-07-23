@@ -7,6 +7,8 @@ import RPG.model.Items.items.armors.Armor;
 import RPG.model.abilities.Magic;
 import RPG.model.abilities.buffs.buffs.ArchersBuff;
 
+import java.util.Random;
+
 /**
  * Created by pikachu on 17.07.17.
  */
@@ -15,11 +17,13 @@ public class IronBoots implements Armor{
     private int defence;
     private int itemLevel;
     private Magic magic;
-    Human human;
+    private Human human;
+
+    private Random random = new Random();
 
     private IronBoots(Human human){
         this.human = human;
-        this.itemLevel = human.getLevel() + 1;
+        this.itemLevel = random.nextInt(human.getLevel() + 1);
         this.defence = getItemLevel() * 10 + 5;
         this.magic = ArchersBuff.getMagic(human);
     }
