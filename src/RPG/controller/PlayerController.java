@@ -146,7 +146,7 @@ public class PlayerController {
                     monster.setHitPoint(monster.getHitPoint() - monster.applyDamage(human.getMagic(combatMagic)));
                     break choice;
                 case "SmallHealing":
-                    Magic healingMagic = SmallHealing.getSmallHealing(human);
+                    Magic healingMagic = SmallHealing.magicFactory.getMagicFactory(human.getMaxHitPoint());
                     human.setHitPoint(human.getHitPoint() + human.getMagic(healingMagic));
                     break choice;
                 case "IceChains":
@@ -255,19 +255,24 @@ public class PlayerController {
      *          boolean result of heal
      */
     private boolean autoHeal(Human human){
-        if ((human.getHitPoint() < (human.getMaxHitPoint()/10)) && (human.getHitPoint() < 30) && (human.getInventory().contains(Items.BigHPBottle))) {
+        if ((human.getHitPoint() < (human.getMaxHitPoint()/10)) && (human.getInventory().contains(Items.BigHPBottle))) {
             ((UsingItems)human).use(Items.BigHPBottle);
             System.out.println(human);
             return true;
-        }else if ((human.getHitPoint() < (human.getMaxHitPoint()/4)) && (human.getHitPoint() < 50) && (human.getInventory().contains(Items.MiddleHPBottle))) {
+        }else if ((human.getHitPoint() < (human.getMaxHitPoint()/4)) && (human.getInventory().contains(Items.MiddleHPBottle))) {
             ((UsingItems)human).use(Items.MiddleHPBottle);
             System.out.println(human);
             return true;
-        }else if ((human.getHitPoint() < (human.getMaxHitPoint()/2)) && (human.getHitPoint() < 80) && (human.getInventory().contains(Items.SmallHPBottle))) {
+        }else if ((human.getHitPoint() < (human.getMaxHitPoint()/2)) && (human.getInventory().contains(Items.SmallHPBottle))) {
             ((UsingItems)human).use(Items.SmallHPBottle);
             System.out.println(human);
             return true;
-        }else return false;
+        }else if((human.getHitPoint() < (human.getMaxHitPoint()/3)) && (human.getInventory().isEmpty()) && (human.getManaPoint() >= SmallHealing.magicFactory.getMagicFactory(human.getMaxHitPoint()).getManaCost())){
+            Magic heal = SmallHealing.magicFactory.getMagicFactory(human.getMaxHitPoint());
+            human.getMagic(heal);
+            System.out.println(human);
+            return true;
+        } else return false;
     }
 
     /**
