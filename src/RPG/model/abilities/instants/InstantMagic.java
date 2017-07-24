@@ -10,6 +10,8 @@ public interface InstantMagic extends Magic{
 
     int getDamage();
 
+    void setDamage();
+
     @Override
     int getLevel();
 

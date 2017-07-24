@@ -20,6 +20,11 @@ public class SmallHealing implements InstantMagic{
     }
 
     @Override
+    public void setDamage() {
+
+    }
+
+    @Override
     public int getLevel() {
         return 0;
     }

@@ -24,6 +24,8 @@ import java.util.*;
  */
 public class Archer implements Human, UsingItems, Equipment{
 
+    private Scanner scanner = new Scanner(System.in);
+
     private int agility = 22;
     private int intelligence = 13;
     private int power = 11;
@@ -72,6 +74,21 @@ public class Archer implements Human, UsingItems, Equipment{
         if (expToNextLevelReady()) {
             level++;
             System.out.println("Congratulation with level: " + level);
+            System.out.println("You can upgrade your skills " + Arrays.toString(InstantMagic.values()));
+            while (true){
+                String choice = scanner.nextLine();
+                if (Objects.equals(choice, "FireBall")){
+                    FireBall fireBall = (FireBall) FireBall.magicFactory.getMagicFactory(getLevel());
+                    fireBall.setDamage();
+                    break;
+                } else if (Objects.equals(choice, "IceChains")){
+                    IceChains iceChains = (IceChains) IceChains.magicFactory.getMagicFactory(getLevel());
+                    iceChains.setDamage();
+                    break;
+                } else {
+                    System.out.println("Wrong value");
+                }
+            }
             System.out.println();
             setAgility(getAgility()+3);
             setIntelligence(getIntelligence()+2);

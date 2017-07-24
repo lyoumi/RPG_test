@@ -6,13 +6,12 @@ import RPG.model.abilities.instants.InstantMagic;
 
 public class IceChains implements InstantMagic{
 
-    private int damage;
+    private int damage = 30;
     private int level;
     private int manaCost;
     
     private IceChains(int level){
         this.level = level + 1;
-        this.damage = level * 3;
         this.manaCost = level * 3;
     }
 
@@ -21,6 +20,11 @@ public class IceChains implements InstantMagic{
     @Override
     public int getDamage() {
         return damage;
+    }
+
+    @Override
+    public void setDamage() {
+        this.damage += 30;
     }
 
     @Override

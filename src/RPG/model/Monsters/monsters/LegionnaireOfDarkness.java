@@ -5,12 +5,8 @@ import RPG.model.Items.EquipmentItems;
 import RPG.model.Items.Items;
 import RPG.model.Items.items.Item;
 import RPG.model.Items.items.armors.Armor;
-import RPG.model.Items.items.armors.armors.IronChest;
-import RPG.model.Items.items.armors.boots.IronBoots;
-import RPG.model.Items.items.armors.helmets.IronHelmet;
 import RPG.model.Items.items.weapons.Weapons;
 import RPG.model.Items.items.weapons.weapons.Bow;
-import RPG.model.Items.items.weapons.weapons.Sword;
 import RPG.model.Monsters.Monster;
 import RPG.model.Monsters.MonsterFactory;
 import RPG.model.Monsters.equipment.MonsterEquipment;
@@ -19,10 +15,11 @@ import RPG.model.abilities.debuffs.DebuffMagic;
 import RPG.model.abilities.debuffs.debuffs.damage.BurningJoe;
 import RPG.model.abilities.debuffs.debuffs.disable.Chains;
 import RPG.model.abilities.instants.instants.InstantMagic;
+import RPG.model.abilities.instants.instants.combat.FireBall;
 
 import java.util.*;
 
-public class Legionnaire implements Monster {
+public class LegionnaireOfDarkness implements Monster {
     private static final List<Items> itemsList = Arrays.asList(Items.values());
     private static final int sizeOfItems = itemsList.size();
     private static final Random random = new Random();
@@ -38,7 +35,7 @@ public class Legionnaire implements Monster {
 
     private DebuffMagic debuffMagic;
 
-    private Legionnaire(Human human){
+    private LegionnaireOfDarkness(Human human){
         this.human = human;
         HERO_LEVEL = human.getLevel();
         hitPoint = (HERO_LEVEL+1)*70;
@@ -67,10 +64,17 @@ public class Legionnaire implements Monster {
             if (turn > 0){
                 System.out.println("He's in ice!");
                 return 0;
-            }else return damage + weapon.getDamage();
-        }
-        else return damage + weapon.getDamage();
+            }else return damage + weapon.getDamage() + getMagicDamage();
+        } else return damage + weapon.getDamage() + getMagicDamage();
 
+    }
+
+    private int getMagicDamage(){
+        boolean chance = random.nextBoolean();
+        if (chance){
+            FireBall fireBall = (FireBall) FireBall.magicFactory.getMagicFactory(human.getLevel());
+            return fireBall.getDamage();
+        } else return 0;
     }
 
     private int getDamage(){
@@ -138,8 +142,8 @@ public class Legionnaire implements Monster {
     }
 
     public String toString(){
-        return "Name: " + Legionnaire.class.getSimpleName() + "; Damage: " + getDamage() + "; HitPoint: " + getHitPoint();
+        return "Name: " + LegionnaireOfDarkness.class.getSimpleName() + "; Damage: " + getDamage() + "; HitPoint: " + getHitPoint();
     }
 
-    public static MonsterFactory monsterFactory = Legionnaire::new;
+    public static MonsterFactory monsterFactory = LegionnaireOfDarkness::new;
 }
