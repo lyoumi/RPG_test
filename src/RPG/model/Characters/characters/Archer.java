@@ -195,26 +195,26 @@ public class Archer implements Human, UsingItems, Equipment{
 
     @Override
     public int getMagic(Magic magic) {
-        if (Objects.equals(magic.getClass().getSimpleName(), InstantMagic.FireBall.toString())) {
+        if (magic instanceof FireBall) {
             FireBall fireBall = (FireBall) magic;
             if(getManaPoint() >= fireBall.getManaCost()){
                 setMana(getManaPoint()-fireBall.getManaCost());
                 return fireBall.getDamage();
             } else return notEnoughOfMana();
-        }else if (Objects.equals(magic.getClass().getSimpleName(), InstantMagic.SmallHealing.toString())){
+        }else if (magic instanceof SmallHealing){
+            System.out.println(toString());
             SmallHealing healing = (SmallHealing) magic;
             if (getManaPoint() >= healing.getManaCost()){
                 setMana(getManaPoint()-healing.getManaCost());
                 return healing.getDamage();
-            } else if(Objects.equals(magic.getClass().getSimpleName(), InstantMagic.IceChains.toString())){
-                IceChains iceChains = (IceChains) magic;
-                if(getManaPoint() >= iceChains.getManaCost()){
-                    setMana(getManaPoint()-iceChains.getManaCost());
-                    return iceChains.getDamage();
-                } else return notEnoughOfMana();
-            }
-            else return notEnoughOfMana();
-        }else return 0;
+            } else return notEnoughOfMana();
+        }else if(magic instanceof IceChains){
+            IceChains iceChains = (IceChains) magic;
+            if(getManaPoint() >= iceChains.getManaCost()){
+                setMana(getManaPoint()-iceChains.getManaCost());
+                return iceChains.getDamage();
+            } else return notEnoughOfMana();
+        } else return notEnoughOfMana();
     }
 
     private int getBaseDamage(){
