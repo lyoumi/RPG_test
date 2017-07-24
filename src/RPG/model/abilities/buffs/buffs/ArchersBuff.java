@@ -11,9 +11,9 @@ import RPG.model.abilities.buffs.BuffMagic;
 public class ArchersBuff implements BuffMagic {
 
     private Human human;
-    private int agility = 20;
-    private int power = 8;
-    private int intelligence = 4;
+    private final int agility = 6;
+    private final int power = 5;
+    private final int intelligence = 4;
 
     private ArchersBuff(Human human){
         this.human = human;

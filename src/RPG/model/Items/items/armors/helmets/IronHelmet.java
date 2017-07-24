@@ -50,7 +50,7 @@ public class IronHelmet implements Armor{
     }
 
     @Override
-    public Magic getMagic() {
+    public Magic getBuff() {
         return magic;
     }
 

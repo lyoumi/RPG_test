@@ -14,5 +14,5 @@ public interface Weapons extends Item {
     String getName();
 
     @Override
-    Magic getMagic();
+    Magic getBuff();
 }

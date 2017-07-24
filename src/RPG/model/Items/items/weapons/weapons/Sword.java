@@ -29,7 +29,7 @@ public class Sword implements Weapons {
     }
 
     @Override
-    public Magic getMagic() {
+    public Magic getBuff() {
         return magic;
     }
 

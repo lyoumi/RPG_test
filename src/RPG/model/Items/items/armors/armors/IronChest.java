@@ -49,7 +49,7 @@ public class IronChest implements Armor {
     }
 
     @Override
-    public Magic getMagic() {
+    public Magic getBuff() {
         return magic;
     }
 

@@ -7,6 +7,7 @@ import RPG.model.Items.items.Item;
 import RPG.model.Items.items.armors.Armor;
 import RPG.model.Items.items.weapons.Weapons;
 import RPG.model.Items.items.weapons.weapons.Bow;
+import RPG.model.Items.items.weapons.weapons.LegendaryArcherBow;
 import RPG.model.Monsters.Monster;
 import RPG.model.Monsters.MonsterFactory;
 import RPG.model.Monsters.equipment.MonsterEquipment;
@@ -122,13 +123,16 @@ public class LegionnaireOfDarkness implements Monster {
     }
 
     public Item getDroppedItems(){
-        switch (random.nextInt(5)){
-            case 0: return equipmentOfDemon.get(EquipmentItems.HANDS);
-            case 1: return equipmentOfDemon.get(EquipmentItems.ARMOR);
-            case 2: return equipmentOfDemon.get(EquipmentItems.HEAD);
-            case 3: return equipmentOfDemon.get(EquipmentItems.LEGS);
-            case 4: return Bow.itemsFactory.createNewItem(human);
-            default: return null;
+        if (random.nextInt(10) == 9) return LegendaryArcherBow.itemsFactory.createNewItem(human);
+        else {
+            switch (random.nextInt(5)){
+                case 0: return equipmentOfDemon.get(EquipmentItems.HANDS);
+                case 1: return equipmentOfDemon.get(EquipmentItems.ARMOR);
+                case 2: return equipmentOfDemon.get(EquipmentItems.HEAD);
+                case 3: return equipmentOfDemon.get(EquipmentItems.LEGS);
+                case 4: return Bow.itemsFactory.createNewItem(human);
+                default: return null;
+            }
         }
     }
 

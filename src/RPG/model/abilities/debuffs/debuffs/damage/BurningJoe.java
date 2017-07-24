@@ -18,7 +18,6 @@ public class BurningJoe implements DebuffMagic {
     @Override
     public int getTimeOfAction() {
         timeOfAction -= 1;
-//        System.out.println(timeOfAction);
         return timeOfAction;
     }
 
@@ -34,7 +33,6 @@ public class BurningJoe implements DebuffMagic {
 
     @Override
     public int getDamage() {
-//        System.out.println("He in flames");
         return damage;
     }
 

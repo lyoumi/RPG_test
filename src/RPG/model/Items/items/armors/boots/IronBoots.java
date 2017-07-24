@@ -49,7 +49,7 @@ public class IronBoots implements Armor{
     }
 
     @Override
-    public Magic getMagic() {
+    public Magic getBuff() {
         return magic;
     }
 

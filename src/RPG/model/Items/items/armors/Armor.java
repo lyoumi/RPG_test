@@ -14,5 +14,5 @@ public interface Armor extends Item {
     String getName();
 
     @Override
-    Magic getMagic();
+    Magic getBuff();
 }

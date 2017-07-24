@@ -108,9 +108,9 @@ public class Archer implements Human, UsingItems, Equipment{
         if(!Objects.equals(equipmentItems, null)){
             for (Map.Entry<EquipmentItems, Item> entry :
                     equipmentItems.entrySet()) {
-                if (!Objects.equals(entry.getValue().getMagic(), null)){
-                    if (entry.getValue().getMagic().getMagicClass().equals(MagicClasses.BUFF)){
-                        magic = entry.getValue().getMagic();
+                if (!Objects.equals(entry.getValue().getBuff(), null)){
+                    if (entry.getValue().getBuff().getMagicClass().equals(MagicClasses.BUFF)){
+                        magic = entry.getValue().getBuff();
                         BuffMagic magic = (BuffMagic) this.magic;
                         additionAgility += magic.getAgility();
                     }
@@ -133,9 +133,9 @@ public class Archer implements Human, UsingItems, Equipment{
         if (!Objects.equals(equipmentItems, null)){
             for (Map.Entry<EquipmentItems, Item> entry :
                     equipmentItems.entrySet()) {
-                if (!Objects.equals(entry.getValue().getMagic(), null)){
-                    if (entry.getValue().getMagic().getMagicClass().equals(MagicClasses.BUFF)){
-                        magic = entry.getValue().getMagic();
+                if (!Objects.equals(entry.getValue().getBuff(), null)){
+                    if (entry.getValue().getBuff().getMagicClass().equals(MagicClasses.BUFF)){
+                        magic = entry.getValue().getBuff();
                         BuffMagic magic = (BuffMagic) this.magic;
                         additionIntelligence += magic.getIntelligence();
                     }
@@ -167,9 +167,9 @@ public class Archer implements Human, UsingItems, Equipment{
         int additionPower = 0;
         if(!Objects.equals(equipmentItems, null)){
             for (Map.Entry<EquipmentItems, Item> entry : equipmentItems.entrySet()) {
-                if (!Objects.equals(entry.getValue().getMagic(), null)){
-                    if (entry.getValue().getMagic().getMagicClass().equals(MagicClasses.BUFF)){
-                        magic = entry.getValue().getMagic();
+                if (!Objects.equals(entry.getValue().getBuff(), null)){
+                    if (entry.getValue().getBuff().getMagicClass().equals(MagicClasses.BUFF)){
+                        magic = entry.getValue().getBuff();
                         BuffMagic magic = (BuffMagic) this.magic;
                         additionPower += magic.getPower();
                     }
