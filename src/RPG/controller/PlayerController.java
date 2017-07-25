@@ -50,14 +50,8 @@ public class PlayerController {
             System.out.println("\nBattle began with " + monster);
 
             String resultOfBattle = manualBattle(human, monster);
-
-            if (human.getHitPoint() <= 0) {
-                System.err.println("YOU ARE DEAD");
-                exit();
-            } else if (monster.getHitPoint() <= 0) {
-                System.out.println(resultOfBattle + "\n");
-                drop(human, monster, false);
-            }
+            System.out.println(resultOfBattle);
+            endEvent(human, monster, false);
             System.out.println("What's next: use item for heal, walking for find new items, auto-battle for check your fortune, stop for break adventures or continue....");
 
             choice:
@@ -154,7 +148,6 @@ public class PlayerController {
                     monster.setDebuff(disableMagic);
                     monster.setHitPoint(monster.getHitPoint() - monster.applyDamage(human.getMagic(disableMagic)));
                     break choice;
-
             }
         }
     }
@@ -180,21 +173,14 @@ public class PlayerController {
                     if (Objects.equals(monster.getClass().getSimpleName(), Devil.class.getSimpleName()))
                         System.out.println(monster);
                     while ((human.getHitPoint() > 0) && (monster.getHitPoint() > 0)){
-                        autoHeal(human);
+                        if (!autoHeal(human)) break;
                         punch(human, monster);
                         if (Objects.equals(monster.getClass().getSimpleName(), Devil.class.getSimpleName()))
                             System.out.println(human);
                     }
                     human.getInventory().trimToSize();
 
-                    if (human.getHitPoint() <= 0) {
-                        System.err.println("YOU ARE DEAD");
-                        exit();
-                    } else if (monster.getHitPoint() <= 0) {
-                        if (Objects.equals(monster.getClass().getSimpleName(), Devil.class.getSimpleName()))
-                            System.err.println("DEVIL HAS FALLEN");
-                        drop(human, monster, true);
-                    }
+                    endEvent(human, monster, true);
                 }
             }
         }catch (IOException e){
@@ -238,12 +224,11 @@ public class PlayerController {
      * @return
      *          boolean result of punch
      */
-    private boolean punch(Human human, Monster monster){
+    private void punch(Human human, Monster monster){
         System.out.println(monster);
         monster.setHitPoint((monster.getHitPoint() - monster.applyDamage(human.getDamage())));
         human.setHitPoint((human.getHitPoint() - human.applyDamage(monster.getDamageForBattle())));
         System.out.println(monster);
-        return true;
     }
 
     /**
@@ -272,7 +257,7 @@ public class PlayerController {
             human.getMagic(heal);
             System.out.println(human);
             return true;
-        } else return false;
+        } else return human.getHitPoint() > human.getMaxHitPoint() / 2;
     }
 
     /**
@@ -294,6 +279,32 @@ public class PlayerController {
         } else {
             System.out.println("Item not found");
             return false;
+        }
+    }
+
+    /**
+     * Метод, вызывающийся по окончанию боя с монстром.
+     * В качестве входных параметров метод принимает объекты героя и монстра
+     * для установления факта смерти одного из них и логический тип mode
+     * для определения режима последующего дропа снаряжения.
+     *
+     * В случае смерти героя вызывается метод exit() и игра завершается.
+     * В случае смерти монстра вызывается метод drop(), в котором герой может поднять
+     * снаряжение оставшееся после убитого монстра.
+     *
+     * @param human
+     *              Character implementation of {@link Human}
+     * @param monster
+     *              Monster implementation of {@link Monster}
+     * @param mode
+     *              boolean mode for drop items
+     */
+    private void endEvent(Human human, Monster monster, boolean mode){
+        if (human.getHitPoint() <= 0) {
+            System.err.println("YOU ARE DEAD");
+            exit();
+        } else if (monster.getHitPoint() <= 0) {
+            drop(human, monster, mode);
         }
     }
 
