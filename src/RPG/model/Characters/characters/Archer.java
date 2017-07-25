@@ -24,13 +24,11 @@ import java.util.*;
  */
 public class Archer implements Human, UsingItems, Equipment{
 
-    private Scanner scanner = new Scanner(System.in);
-
     private int agility = 22;
     private int intelligence = 13;
     private int power = 11;
     private double experience = 0;
-    private int level = 0;
+    private int level = 1;
     private int baseDamage = getAgility()*getMultiplierAgility();
     private int hitPoint = getPower()*getMultiplierPower();
     private int mana = getIntelligence()*getMultiplierIntelligence();
@@ -40,6 +38,7 @@ public class Archer implements Human, UsingItems, Equipment{
     private Armor armor;
     private int defence;
     private Magic magic;
+    private int magicPoint = 0;
 
     private int getMultiplierAgility() {
         return 2;
@@ -54,7 +53,7 @@ public class Archer implements Human, UsingItems, Equipment{
     }
 
     private boolean expToNextLevelReady(){
-        return getExperience() >= ((level+1)*150);
+        return getExperience() >= ((level+1)*500);
     }
 
     private double getExperience() {
@@ -74,21 +73,7 @@ public class Archer implements Human, UsingItems, Equipment{
         if (expToNextLevelReady()) {
             level++;
             System.out.println("Congratulation with level: " + level);
-            System.out.println("You can upgrade your skills " + Arrays.toString(InstantMagic.values()));
-            while (true){
-                String choice = scanner.nextLine();
-                if (Objects.equals(choice, "FireBall")){
-                    FireBall fireBall = (FireBall) FireBall.magicFactory.getMagicFactory(getLevel());
-                    fireBall.setDamage();
-                    break;
-                } else if (Objects.equals(choice, "IceChains")){
-                    IceChains iceChains = (IceChains) IceChains.magicFactory.getMagicFactory(getLevel());
-                    iceChains.setDamage();
-                    break;
-                } else {
-                    System.out.println("Wrong value");
-                }
-            }
+            setMagicPoint(getMagicPoint() + 1);
             System.out.println();
             setAgility(getAgility()+3);
             setIntelligence(getIntelligence()+2);
@@ -198,6 +183,14 @@ public class Archer implements Human, UsingItems, Equipment{
         setHitPoint(getPower()*10);
         setDamage(getAgility()*getMultiplierAgility());
         setMana(getAgility()*getMultiplierIntelligence());
+    }
+
+    public int getMagicPoint(){
+        return magicPoint;
+    }
+
+    public void setMagicPoint(int magicPoint) {
+        this.magicPoint = magicPoint;
     }
 
     @Override

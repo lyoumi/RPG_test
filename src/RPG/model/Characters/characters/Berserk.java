@@ -75,6 +75,16 @@ public class Berserk implements Human {
     }
 
     @Override
+    public int getMagicPoint() {
+        return 0;
+    }
+
+    @Override
+    public void setMagicPoint(int magicPoint) {
+
+    }
+
+    @Override
     public int getManaPoint() {
         return 0;
     }

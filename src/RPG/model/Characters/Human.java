@@ -10,6 +10,10 @@ import java.util.ArrayList;
  */
 public interface Human {
 
+    int getMagicPoint();
+
+    void setMagicPoint(int magicPoint);
+
     int getManaPoint();
 
     int getDamage();

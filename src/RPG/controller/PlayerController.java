@@ -52,8 +52,8 @@ public class PlayerController {
             String resultOfBattle = manualBattle(human, monster);
             System.out.println(resultOfBattle);
             endEvent(human, monster, false);
-            System.out.println("What's next: use item for heal, walking for find new items, auto-battle for check your fortune, stop for break adventures or continue....");
 
+            System.out.println("What's next: use item for heal, walking for find new items, auto-battle for check your fortune, stop for break adventures or continue....");
             choice:
             while (true) {
                 String s = scanner.nextLine();
@@ -96,7 +96,7 @@ public class PlayerController {
             System.out.println(human);
 
             System.out.println("Choose next turn: use item for heal, use magic for addition damage, leave battle for alive or continue....");
-
+            checkNewMagicPoint(human);
             choice:
             while (true){
                 String s = scanner.nextLine();
@@ -118,6 +118,30 @@ public class PlayerController {
             }
         }
         return "The manualBattle is over. Your stats: " + human;
+    }
+
+    /**
+     * метод проверяющий
+     * @param human
+     */
+    private void checkNewMagicPoint(Human human){
+        while (human.getMagicPoint() != 0){
+            System.out.println("You can upgrade your skills " + Arrays.toString(InstantMagic.values()));
+            String choice = scanner.nextLine();
+            if (Objects.equals(choice, "FireBall")){
+                FireBall fireBall = (FireBall) FireBall.magicFactory.getMagicFactory(human.getLevel());
+                fireBall.setDamage();
+                human.setMagicPoint(human.getMagicPoint() - 1);
+                break;
+            } else if (Objects.equals(choice, "IceChains")){
+                IceChains iceChains = (IceChains) IceChains.magicFactory.getMagicFactory(human.getLevel());
+                iceChains.setDamage();
+                human.setMagicPoint(human.getMagicPoint() - 1);
+                break;
+            } else {
+                System.out.println("Wrong value");
+            }
+        }
     }
 
     /**
@@ -179,8 +203,8 @@ public class PlayerController {
                             System.out.println(human);
                     }
                     human.getInventory().trimToSize();
-
                     endEvent(human, monster, true);
+                    checkNewMagicPoint(human);
                 }
             }
         }catch (IOException e){
@@ -361,7 +385,7 @@ public class PlayerController {
      */
     private Monster spawn(Human human) {
         int chance = random.nextInt(100);
-        if (chance == 99) return Devil.monsterFactory.createNewMonster(human);
+        if (human.getLevel()%25 == 0) return Devil.monsterFactory.createNewMonster(human);
         else if ((chance > 0)&&(chance < 25)) return LegionnaireOfDarkness.monsterFactory.createNewMonster(human);
         else return Demon.monsterFactory.createNewMonster(human);
     }
