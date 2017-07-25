@@ -35,14 +35,21 @@ public class Demon implements Monster {
     private int damage;
     private int hitPoint;
     private LinkedList<Items> inventory = new LinkedList<>();
+    private Map<EquipmentItems, Item> equipmentOfDemon;
+
 
     private DebuffMagic debuffMagic;
 
     private Demon(Human human){
         this.human = human;
         HERO_LEVEL = human.getLevel();
-        hitPoint = (HERO_LEVEL+1)*70;
-        damage = (HERO_LEVEL+1)*20;
+        hitPoint = (HERO_LEVEL+1)*35;
+        damage = (HERO_LEVEL+1)*10;
+        setEquipmentOfDemon(human);
+    }
+
+    private void setEquipmentOfDemon(Human human) {
+        this.equipmentOfDemon = MonsterEquipment.monsterEquipmentFactory.getMonsterEquipment(human);
     }
 
     private boolean isBuffed() {
@@ -100,15 +107,8 @@ public class Demon implements Monster {
         return inventory;
     }
 
-    public Item getDroppedItems(){
-        switch (random.nextInt(5)){
-            case 0: return Sword.itemsFactory.createNewItem(human);
-            case 1: return IronChest.itemsFactory.createNewItem(human);
-            case 2: return IronHelmet.itemsFactory.createNewItem(human);
-            case 3: return IronBoots.itemsFactory.createNewItem(human);
-            case 4: return Bow.itemsFactory.createNewItem(human);
-            default: return null;
-        }
+    public Map<EquipmentItems, Item> getDroppedItems(){
+        return equipmentOfDemon;
     }
 
     @Override

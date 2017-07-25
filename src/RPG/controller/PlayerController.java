@@ -5,6 +5,7 @@ import RPG.model.Characters.characters.Archer;
 import RPG.model.Characters.characters.Berserk;
 import RPG.model.Characters.characters.Wizard;
 import RPG.model.Items.Equipment;
+import RPG.model.Items.EquipmentItems;
 import RPG.model.Items.Items;
 import RPG.model.Items.UsingItems;
 import RPG.model.Items.items.Item;
@@ -352,24 +353,37 @@ public class PlayerController {
         if (autoDrop){
             human.experienceDrop(monster.getExperience());
             ((UsingItems) human).add(monster.getInventory().pollLast());
-            ((Equipment)human).equip(monster.getDroppedItems());
+            Map<EquipmentItems, Item> droppedEquipment = monster.getDroppedItems();
+            for (Map.Entry<EquipmentItems, Item> entry : droppedEquipment.entrySet()) {
+                ((Equipment)human).equip(entry.getValue());
+            }
             return true;
         } else{
+            if (!Objects.equals(monster.getDroppedItems(), null)){
+                Map<EquipmentItems, Item> droppedEquipment = monster.getDroppedItems();
+                while (true){
+                    System.out.println("Your equipment " + ((Equipment)human).showEquipment());
+                    System.out.println("Pls, choose equipment....");
+                    System.out.println(droppedEquipment);
+                    String key;
+                    while (true){
+                        key = scanner.nextLine();
+                        if (Arrays.toString(EquipmentItems.values()).contains(key)) break;
+                        else System.out.println("Pls, enter another key....");
+                    }
+                    ((Equipment)human).equip(droppedEquipment.get(EquipmentItems.valueOf(key)));
+                    droppedEquipment.remove((EquipmentItems.valueOf(key)));
+                    System.out.println("Equip more?");
+                    if (Objects.equals(scanner.nextLine(), "No") || droppedEquipment.isEmpty()) break;
+                }
+            }
+
             human.experienceDrop(monster.getExperience());
             System.out.println("You can add to your inventory " + monster.getInventory());
             while (true) {
                 String s = scanner.nextLine();
                 if (Objects.equals(s, "add")) {
                     ((UsingItems) human).add(monster.getInventory().pollLast());
-                    break;
-                } else System.out.println("Pls, make the correct choice....");
-            }
-            Item droppedItems = monster.getDroppedItems();
-            System.out.println("You can equip " + droppedItems);
-            while (true) {
-                String s = scanner.nextLine();
-                if (Objects.equals(s, "equip")) {
-                    ((Equipment)human).equip(droppedItems);
                     break;
                 } else System.out.println("Pls, make the correct choice....");
             }

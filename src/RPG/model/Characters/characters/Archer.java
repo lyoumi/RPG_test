@@ -352,6 +352,11 @@ public class Archer implements Human, UsingItems, Equipment{
 
     }
 
+    @Override
+    public Map<EquipmentItems, Item> showEquipment() {
+        return equipmentItems;
+    }
+
     public String toString(){
         return "Class: " + Archer.class.getSimpleName() +
                 "; HP " + String.valueOf(getHitPoint()) +

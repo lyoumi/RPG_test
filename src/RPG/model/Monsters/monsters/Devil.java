@@ -89,8 +89,8 @@ public class Devil implements Monster {
     }
 
     @Override
-    public Item getDroppedItems() {
-        return Bow.itemsFactory.createNewItem(human);
+    public Map<EquipmentItems, Item> getDroppedItems() {
+        return equipmentOfDevil;
     }
 
     @Override
