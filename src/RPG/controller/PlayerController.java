@@ -121,8 +121,10 @@ public class PlayerController {
     }
 
     /**
-     * метод проверяющий
+     * Метод проверяющий наличие неиспользованных очков навыков и реализующий их распределение.
+     *
      * @param human
+     *              Character implementation of {@link Human}
      */
     private void checkNewMagicPoint(Human human){
         while (human.getMagicPoint() != 0){
