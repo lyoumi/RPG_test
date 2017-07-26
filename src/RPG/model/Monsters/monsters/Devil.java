@@ -29,6 +29,8 @@ public class Devil implements Monster {
 
     private Map<EquipmentItems, Item> equipmentOfDevil;
 
+    private final int experince = 100000;
+
     private Devil(Human human){
         this.human = human;
         HERO_LEVEL = human.getLevel();
@@ -47,7 +49,7 @@ public class Devil implements Monster {
 
     @Override
     public int getExperience() {
-        return 100000;
+        return experince;
     }
 
     private int getDefence() {
@@ -74,7 +76,8 @@ public class Devil implements Monster {
 
     @Override
     public int getHitPoint() {
-        return hitPoint;
+        if (hitPoint < 0) return 0;
+        else return hitPoint;
     }
 
     @Override
@@ -96,6 +99,11 @@ public class Devil implements Monster {
     @Override
     public boolean setDebuff(Magic magic) {
         return false;
+    }
+
+    @Override
+    public boolean isDead() {
+        return getHitPoint() == 0;
     }
 
     public String toString(){

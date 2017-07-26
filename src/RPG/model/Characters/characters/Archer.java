@@ -11,9 +11,9 @@ import RPG.model.Items.items.armors.Armor;
 import RPG.model.Items.items.weapons.Weapons;
 import RPG.model.abilities.Magic;
 import RPG.model.abilities.MagicClasses;
+import RPG.model.abilities.buffs.BuffClasses;
 import RPG.model.abilities.buffs.BuffMagic;
 import RPG.model.abilities.instants.instants.combat.FireBall;
-import RPG.model.abilities.instants.instants.InstantMagic;
 import RPG.model.abilities.instants.instants.combat.IceChains;
 import RPG.model.abilities.instants.instants.healing.SmallHealing;
 
@@ -39,21 +39,24 @@ public class Archer implements Human, UsingItems, Equipment{
     private int defence;
     private Magic magic;
     private int magicPoint = 0;
+    private final int multiplierAgility = 2;
+    private final int multiplierIntelligence = 11;
+    private final int multiplierPower = 2;
 
     private int getMultiplierAgility() {
-        return 2;
+        return multiplierAgility;
     }
 
     private int getMultiplierPower() {
-        return 11;
+        return multiplierPower;
     }
 
     private int getMultiplierIntelligence() {
-        return 6;
+        return multiplierIntelligence;
     }
 
     private boolean expToNextLevelReady(){
-        return getExperience() >= ((level+1)*500);
+        return getExperience() >= ((level+1)*1500);
     }
 
     private double getExperience() {
@@ -97,7 +100,8 @@ public class Archer implements Human, UsingItems, Equipment{
                     if (entry.getValue().getBuff().getMagicClass().equals(MagicClasses.BUFF)){
                         magic = entry.getValue().getBuff();
                         BuffMagic magic = (BuffMagic) this.magic;
-                        additionAgility += magic.getAgility();
+                        if (magic.getEffect().containsKey(BuffClasses.agility))
+                            additionAgility += magic.getEffect().get(BuffClasses.agility);
                     }
                 }
             }
@@ -122,7 +126,8 @@ public class Archer implements Human, UsingItems, Equipment{
                     if (entry.getValue().getBuff().getMagicClass().equals(MagicClasses.BUFF)){
                         magic = entry.getValue().getBuff();
                         BuffMagic magic = (BuffMagic) this.magic;
-                        additionIntelligence += magic.getIntelligence();
+                        if (magic.getEffect().containsKey(BuffClasses.intelligence))
+                            additionIntelligence += magic.getEffect().get(BuffClasses.intelligence);
                     }
                 }
             }
@@ -156,7 +161,8 @@ public class Archer implements Human, UsingItems, Equipment{
                     if (entry.getValue().getBuff().getMagicClass().equals(MagicClasses.BUFF)){
                         magic = entry.getValue().getBuff();
                         BuffMagic magic = (BuffMagic) this.magic;
-                        additionPower += magic.getPower();
+                        if (magic.getEffect().containsKey(BuffClasses.power))
+                            additionPower += magic.getEffect().get(BuffClasses.power);
                     }
                 }
             }
@@ -185,10 +191,12 @@ public class Archer implements Human, UsingItems, Equipment{
         setMana(getAgility()*getMultiplierIntelligence());
     }
 
+    @Override
     public int getMagicPoint(){
         return magicPoint;
     }
 
+    @Override
     public void setMagicPoint(int magicPoint) {
         this.magicPoint = magicPoint;
     }
@@ -256,7 +264,8 @@ public class Archer implements Human, UsingItems, Equipment{
 
     @Override
     public int getHitPoint() {
-        return hitPoint;
+        if (hitPoint < 0) return 0;
+        else return hitPoint;
     }
 
     @Override

@@ -30,6 +30,8 @@ public class LegionnaireOfDarkness implements Monster {
     private int hitPoint;
     private LinkedList<Items> inventory = new LinkedList<>();
 
+    private final int experience = 1000;
+
     private Map<EquipmentItems, Item> equipmentOfDemon;
 
     private DebuffMagic debuffMagic;
@@ -51,7 +53,7 @@ public class LegionnaireOfDarkness implements Monster {
     }
 
     public int getExperience(){
-        return 1000;
+        return experience;
     }
 
     @Override
@@ -106,7 +108,8 @@ public class LegionnaireOfDarkness implements Monster {
 
     @Override
     public int getHitPoint() {
-        return hitPoint;
+        if (hitPoint < 0) return 0;
+        else return hitPoint;
     }
 
     @Override
@@ -131,6 +134,11 @@ public class LegionnaireOfDarkness implements Monster {
         else if (Objects.equals(magic.getClass().getSimpleName(), InstantMagic.IceChains.toString()))
             debuffMagic = (DebuffMagic) Chains.magicFactory.getMagicFactory(HERO_LEVEL);
         return true;
+    }
+
+    @Override
+    public boolean isDead() {
+        return getHitPoint() == 0;
     }
 
     public String toString(){

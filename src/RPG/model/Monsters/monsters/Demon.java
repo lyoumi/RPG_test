@@ -37,6 +37,7 @@ public class Demon implements Monster {
     private LinkedList<Items> inventory = new LinkedList<>();
     private Map<EquipmentItems, Item> equipmentOfDemon;
 
+    private final int experince = 100;
 
     private DebuffMagic debuffMagic;
 
@@ -57,7 +58,7 @@ public class Demon implements Monster {
     }
 
     public int getExperience(){
-        return 100;
+        return experince;
     }
 
     @Override
@@ -93,7 +94,8 @@ public class Demon implements Monster {
 
     @Override
     public int getHitPoint() {
-        return hitPoint;
+        if (hitPoint < 0) return 0;
+        else return hitPoint;
     }
 
     @Override
@@ -118,6 +120,11 @@ public class Demon implements Monster {
         else if (Objects.equals(magic.getClass().getSimpleName(), InstantMagic.IceChains.toString()))
             debuffMagic = (DebuffMagic) Chains.magicFactory.getMagicFactory(HERO_LEVEL);
         return true;
+    }
+
+    @Override
+    public boolean isDead() {
+        return getHitPoint() == 0;
     }
 
     public String toString(){

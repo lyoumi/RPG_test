@@ -3,16 +3,14 @@ package RPG.model.abilities.buffs;
 import RPG.model.abilities.Magic;
 import RPG.model.abilities.MagicClasses;
 
+import java.util.Map;
+
 /**
  * Created by pikachu on 18.07.17.
  */
 public interface BuffMagic extends Magic{
 
-    int getAgility();
-
-    int getPower();
-
-    int getIntelligence();
+    Map<BuffClasses, Integer> getEffect();
 
     @Override
     int getLevel();

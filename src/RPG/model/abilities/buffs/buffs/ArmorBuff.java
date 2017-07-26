@@ -10,27 +10,24 @@ import RPG.model.abilities.buffs.BuffMagic;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by pikachu on 18.07.17.
- */
-public class ArchersBuff implements BuffMagic {
+public class ArmorBuff implements BuffMagic{
 
+    private final int power;
+    private final int defence;
     private int level;
-    private final int agility = 6;
-    private final int power = 5;
-    private final int intelligence = 4;
 
-    private ArchersBuff(int level){
+    private ArmorBuff(int level) {
+        this.power = 7;
+        this.defence = 10;
         this.level = level;
     }
 
     @Override
     public Map<BuffClasses, Integer> getEffect() {
-        Map<BuffClasses, Integer> effects = new HashMap<>();
-        effects.put(BuffClasses.agility, agility);
-        effects.put(BuffClasses.power, power);
-        effects.put(BuffClasses.intelligence, intelligence);
-        return effects;
+        Map<BuffClasses, Integer> effect = new HashMap<>();
+        effect.put(BuffClasses.defence, defence);
+        effect.put(BuffClasses.power, power);
+        return effect;
     }
 
     @Override
@@ -45,8 +42,8 @@ public class ArchersBuff implements BuffMagic {
 
     @Override
     public MagicClasses getMagicClass() {
-        return MagicClasses.BUFF;
+        return null;
     }
 
-    public static MagicFactory magicFactory = ArchersBuff::new;
+    public static MagicFactory magicFactory = ArmorBuff::new;
 }

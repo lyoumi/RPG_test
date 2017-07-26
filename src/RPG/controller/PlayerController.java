@@ -92,12 +92,11 @@ public class PlayerController {
      */
     private synchronized String manualBattle(Human human, Monster monster){
         battle:
-        while ((human.getHitPoint() > 0) && (monster.getHitPoint() > 0)) {
+        do {
             punch(human, monster);
+            if (monster.isDead()) break;
             System.out.println(human);
-
             System.out.println("Choose next turn: use item for heal, use magic for addition damage, leave battle for alive or continue....");
-            checkNewMagicPoint(human);
             choice:
             while (true){
                 String s = scanner.nextLine();
@@ -117,8 +116,46 @@ public class PlayerController {
                         break;
                 }
             }
-        }
+        }while ((human.getHitPoint() > 0) && (monster.getHitPoint() > 0));
+        checkNewMagicPoint(human);
         return "The manualBattle is over. Your stats: " + human;
+    }
+
+    /**
+     * Режим автоматического ведения боя. В случае с малым количеством здоровья персонаж будет способен
+     * самостоятельно восстановить здоровье, а в случае отсутствия предметов для восстановления
+     * отправится в путешествие для их поиска (walking())
+     *
+     * @param human
+     *          Character implementation of {@link Human}
+     */
+    private void autoBattle(Human human){
+        try{
+            while (System.in.available()==0){
+                if (human.getInventory().isEmpty()) {
+                    System.out.println("I need go walk.... Pls, wait some time, I will be back\n" + human);
+                    String walkingResults = walking(human);
+                    System.out.println(walkingResults);
+                }
+                if (random.nextInt(10000000) == 9999999){
+                    Monster monster = spawn(human);
+                    if (Objects.equals(monster.getClass().getSimpleName(), Devil.class.getSimpleName()))
+                        System.out.println(monster);
+                    do{
+                        if (!autoHeal(human)) break;
+                        punch(human, monster);
+                        if (monster.isDead()) break;
+                        if (Objects.equals(monster.getClass().getSimpleName(), Devil.class.getSimpleName()))
+                            System.out.println(human);
+                    }while ((human.getHitPoint() > 0) && (monster.getHitPoint() > 0));
+                    human.getInventory().trimToSize();
+                    endEvent(human, monster, true);
+                    checkNewMagicPoint(human);
+                }
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -176,42 +213,6 @@ public class PlayerController {
                     monster.setHitPoint(monster.getHitPoint() - monster.applyDamage(human.getMagic(disableMagic)));
                     break choice;
             }
-        }
-    }
-
-    /**
-     * Режим автоматического ведения боя. В случае с малым количеством здоровья персонаж будет способен
-     * самостоятельно восстановить здоровье, а в случае отсутствия предметов для восстановления
-     * отправится в путешествие для их поиска (walking())
-     *
-     * @param human
-     *          Character implementation of {@link Human}
-     */
-    private void autoBattle(Human human){
-        try{
-            while (System.in.available()==0){
-                if (human.getInventory().isEmpty()) {
-                    System.out.println("I need go walk.... Pls, wait some time, I will be back\n" + human);
-                    String walkingResults = walking(human);
-                    System.out.println(walkingResults);
-                }
-                if (random.nextInt(10000000) == 9999999){
-                    Monster monster = spawn(human);
-                    if (Objects.equals(monster.getClass().getSimpleName(), Devil.class.getSimpleName()))
-                        System.out.println(monster);
-                    while ((human.getHitPoint() > 0) && (monster.getHitPoint() > 0)){
-                        if (!autoHeal(human)) break;
-                        punch(human, monster);
-                        if (Objects.equals(monster.getClass().getSimpleName(), Devil.class.getSimpleName()))
-                            System.out.println(human);
-                    }
-                    human.getInventory().trimToSize();
-                    endEvent(human, monster, true);
-                    checkNewMagicPoint(human);
-                }
-            }
-        }catch (IOException e){
-            e.printStackTrace();
         }
     }
 

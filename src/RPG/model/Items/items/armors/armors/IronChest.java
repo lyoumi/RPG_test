@@ -25,7 +25,7 @@ public class IronChest implements Armor {
         this.human = human;
         this.itemLevel = random.nextInt(human.getLevel() + 1);
         this.defence = this.getItemLevel() * 10 + 5;
-        this.magic = ArchersBuff.getMagic(human);
+        this.magic = ArchersBuff.magicFactory.getMagicFactory(human.getLevel());
     }
 
     @Override

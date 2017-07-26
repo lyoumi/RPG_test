@@ -24,7 +24,7 @@ public class LegendaryArcherBow implements Weapons {
         this.human = human;
         this.itemLevel = random.nextInt(human.getLevel() + 1) + 5;
         this.damage = getLevel() * 9;
-        this.buff = ArchersBuff.getMagic(human);
+        this.buff = ArchersBuff.magicFactory.getMagicFactory(human.getLevel());
         this.magic = BurningJoe.magicFactory.getMagicFactory(getLevel());
     }
 

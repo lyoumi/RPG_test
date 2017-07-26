@@ -24,7 +24,7 @@ public class Bow implements Weapons {
         this.human = human;
         this.itemLevel = random.nextInt(human.getLevel() + 1);
         this.damage = getLevel() * 7 + 5;
-        this.magic = ArchersBuff.getMagic(human);
+        this.magic = ArchersBuff.magicFactory.getMagicFactory(human.getLevel());
     }
 
     @Override

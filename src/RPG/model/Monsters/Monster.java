@@ -20,4 +20,5 @@ public interface Monster {
     LinkedList<Items> getInventory();
     Map<EquipmentItems, Item> getDroppedItems();
     boolean setDebuff(Magic magic);
+    boolean isDead();
 }
