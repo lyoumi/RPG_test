@@ -8,7 +8,7 @@ import RPG.model.Items.items.armors.Armor;
 import RPG.model.Items.items.weapons.Weapons;
 import RPG.model.Monsters.Monster;
 import RPG.model.Monsters.MonsterFactory;
-import RPG.model.Monsters.equipment.MonsterEquipment;
+import RPG.model.Monsters.equipment.equipment.MonsterEquipment;
 import RPG.model.abilities.Magic;
 import RPG.model.abilities.debuffs.DebuffMagic;
 import RPG.model.abilities.debuffs.debuffs.damage.BurningJoe;
