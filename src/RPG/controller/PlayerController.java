@@ -39,7 +39,7 @@ public class PlayerController {
      * отправить героя добывать ресурсы и опыт, продолжить приключение или же остановить игру.
      *
      * @param human
-     *          Character implementation {@link Human}
+     *          Character implementation of {@link Human}
      */
     private synchronized void beginGame(Human human){
 
@@ -54,41 +54,55 @@ public class PlayerController {
             System.out.println(resultOfBattle);
             endEvent(human, monster, false);
 
-            System.out.println("What's next: use item for heal, walking for find new items, auto-battle for check your fortune, stop for break adventures or continue....");
-            choice:
-            while (true) {
-                String s = scanner.nextLine();
-                switch (s) {
-                    case "use item":
-                        useItem(human);
-                        break choice;
-                    case "walking":
-                        String endOfWalk = walking(human);
-                        System.out.println(endOfWalk);
-                        break choice;
-                    case "auto-battle":
-                        autoBattle(human);
-                        break choice;
-                    case "continue":
-                        break choice;
-                    case "stop":
-                        exit();
-                        break;
-                    default:
-                        System.out.println("Pls, make the correct choice....");
-                        break;
-                }
+            nextChoice(human);
+        }
+    }
+
+    /**
+     * Метод, описывающий возможный выбор по окончании ручного или автоматического боя, или же поиска ресурсов.
+     *
+     * @param human
+     *              Character implementation of {@link Human}
+     * @return
+     *              boolean result
+     */
+    private boolean nextChoice(Human human){
+        System.out.println("What's next: use item for heal, walking for find new items, auto-battle for check your fortune, stop for break adventures or continue....");
+        choice:
+        while (true) {
+            String s = scanner.nextLine();
+            switch (s) {
+                case "use item":
+                    useItem(human);
+                    break choice;
+                case "walking":
+                    String endOfWalk = walking(human);
+                    System.out.println(endOfWalk);
+                    break choice;
+                case "auto-battle":
+                    autoBattle(human);
+                    break choice;
+                case "continue":
+                    break choice;
+                case "stop":
+                    exit();
+                    break;
+                default:
+                    System.out.println("Pls, make the correct choice....");
+                    break;
             }
         }
+        return true;
     }
 
     /**
      * Метод симулирующий бой между героем и монстром
      * В ходе боя игрок может покинуть бой для дальнейшего приключения, или же использовать имеющиеся у него веши
+     *
      * @param human
-     *              Character implementation {@link Human}
+     *              Character implementation of {@link Human}
      * @param monster
-     *              Monster implementation {@link Monster}
+     *              Monster implementation of {@link Monster}
      */
     private synchronized String manualBattle(Human human, Monster monster){
         battle:
@@ -245,6 +259,7 @@ public class PlayerController {
 
     /**
      * Метод, реализующий удар монстра и героя. Возвращает true после удара
+     *
      * @param human
      *          Character implementation of {@link Human}
      * @param monster
@@ -262,6 +277,7 @@ public class PlayerController {
     /**
      * Метод предназначенный для автоматического восполнения здоровья
      * Возвращает true в случае успешного восполнения здоровья и false в случае если этого не произошло
+     *
      * @param human
      *          Character implementation of {@link Human}
      * @return
@@ -295,6 +311,8 @@ public class PlayerController {
      * После ввода индекса осуществляется проверка на наличие этого предмета в инвентаре, после чего вызывается
      * метод use() из класса персонажа.
      *
+     * @param human
+     *              Character implementation of {@link Human}
      * @return
      *          boolean result of using item
      */
@@ -351,6 +369,7 @@ public class PlayerController {
      *              boolean result
      */
     private boolean drop(Human human, Monster monster, boolean autoDrop) {
+
         if (autoDrop){
             human.experienceDrop(monster.getExperience());
             ((UsingItems) human).add(monster.getInventory().pollLast());
@@ -359,17 +378,22 @@ public class PlayerController {
                 ((Equipment)human).equip(entry.getValue());
             }
             return true;
-        } else{
+        }
+
+        else{
             if (!Objects.equals(monster.getDroppedItems(), null)){
                 Map<EquipmentItems, Item> droppedEquipment = monster.getDroppedItems();
                 while (true){
                     System.out.println("Your equipment " + ((Equipment)human).showEquipment());
                     System.out.println("Pls, choose equipment....");
                     System.out.println(droppedEquipment);
+                    System.out.println("You have found " + monster.getDroppedGold());
+                    human.setGold(human.getGold() + monster.getDroppedGold());
                     String key;
+                    List <String> list = Arrays.asList("HEAD", "HANDS", "LEGS", "ARMOR");
                     while (true){
                         key = scanner.nextLine();
-                        if (Arrays.toString(EquipmentItems.values()).contains(key)) break;
+                        if (list.contains(key)) break;
                         else System.out.println("Pls, enter another key....");
                     }
                     ((Equipment)human).equip(droppedEquipment.get(EquipmentItems.valueOf(key)));
@@ -378,7 +402,6 @@ public class PlayerController {
                     if (Objects.equals(scanner.nextLine(), "No") || droppedEquipment.isEmpty()) break;
                 }
             }
-
             human.experienceDrop(monster.getExperience());
             System.out.println("You can add to your inventory " + monster.getInventory());
             while (true) {
@@ -394,6 +417,7 @@ public class PlayerController {
 
     /**
      * Метод, отвечающий за генерацию монстра
+     *
      * @param human
      *          Character implementation of {@link Human}
      * @return

@@ -10,6 +10,10 @@ import java.util.ArrayList;
  */
 public interface Human {
 
+    int getGold();
+
+    void setGold(int gold);
+
     int getMagicPoint();
 
     void setMagicPoint(int magicPoint);

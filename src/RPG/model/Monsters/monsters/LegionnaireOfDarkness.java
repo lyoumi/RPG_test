@@ -23,7 +23,7 @@ public class LegionnaireOfDarkness implements Monster {
     private static final int sizeOfItems = itemsList.size();
     private static final Random random = new Random();
 
-    private int HERO_LEVEL;
+    private int level;
     private Human human;
 
     private int damage;
@@ -31,6 +31,7 @@ public class LegionnaireOfDarkness implements Monster {
     private LinkedList<Items> inventory = new LinkedList<>();
 
     private final int experience = 1000;
+    private final int gold = 1000;
 
     private Map<EquipmentItems, Item> equipmentOfDemon;
 
@@ -38,9 +39,9 @@ public class LegionnaireOfDarkness implements Monster {
 
     private LegionnaireOfDarkness(Human human){
         this.human = human;
-        HERO_LEVEL = human.getLevel();
-        hitPoint = (HERO_LEVEL+1)*70;
-        damage = (HERO_LEVEL+1)*20;
+        level = human.getLevel() + 1;
+        hitPoint = (level)*70;
+        damage = (level)*20;
         setEquipmentOfDemon(human);
     }
 
@@ -130,15 +131,20 @@ public class LegionnaireOfDarkness implements Monster {
     @Override
     public boolean setDebuff(Magic magic) {
         if (Objects.equals(magic.getClass().getSimpleName(), InstantMagic.FireBall.toString()))
-            debuffMagic = (DebuffMagic) BurningJoe.magicFactory.getMagicFactory(HERO_LEVEL);
+            debuffMagic = (DebuffMagic) BurningJoe.magicFactory.getMagicFactory(level);
         else if (Objects.equals(magic.getClass().getSimpleName(), InstantMagic.IceChains.toString()))
-            debuffMagic = (DebuffMagic) Chains.magicFactory.getMagicFactory(HERO_LEVEL);
+            debuffMagic = (DebuffMagic) Chains.magicFactory.getMagicFactory(level);
         return true;
     }
 
     @Override
     public boolean isDead() {
         return getHitPoint() == 0;
+    }
+
+    @Override
+    public int getDroppedGold() {
+        return gold;
     }
 
     public String toString(){

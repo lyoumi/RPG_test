@@ -41,7 +41,8 @@ public class Archer implements Human, UsingItems, Equipment{
     private int magicPoint = 0;
     private final int multiplierAgility = 2;
     private final int multiplierIntelligence = 11;
-    private final int multiplierPower = 2;
+    private final int multiplierPower = 6;
+    private int gold = 0;
 
     private int getMultiplierAgility() {
         return multiplierAgility;
@@ -88,7 +89,7 @@ public class Archer implements Human, UsingItems, Equipment{
     }
 
     private int getAgility() {
-        return agility + getSummaryAdditionAgility();
+        return agility + getSummaryAdditionParam(BuffClasses.intelligence);
     }
 
     private int getSummaryAdditionAgility(){
@@ -114,7 +115,7 @@ public class Archer implements Human, UsingItems, Equipment{
     }
 
     private int getIntelligence() {
-        return intelligence + getSummaryAdditionIntelligence();
+        return intelligence + getSummaryAdditionParam(BuffClasses.intelligence);
     }
 
     private int getSummaryAdditionIntelligence(){
@@ -150,7 +151,7 @@ public class Archer implements Human, UsingItems, Equipment{
     }
 
     private int getPower() {
-        return power + getSummaryAdditionPower();
+        return power + getSummaryAdditionParam(BuffClasses.power);
     }
 
     private int getSummaryAdditionPower(){
@@ -185,10 +186,37 @@ public class Archer implements Human, UsingItems, Equipment{
         return defence;
     }
 
+    private int getSummaryAdditionParam(BuffClasses buffClass){
+        int summaryAddtitionParam = 0;
+        if(!Objects.equals(equipmentItems, null)){
+            for (Map.Entry<EquipmentItems, Item> entry : equipmentItems.entrySet()) {
+                if (!Objects.equals(entry.getValue().getBuff(), null)){
+                    if (entry.getValue().getBuff().getMagicClass().equals(MagicClasses.BUFF)){
+                        magic = entry.getValue().getBuff();
+                        BuffMagic magic = (BuffMagic) this.magic;
+                        if (magic.getEffect().containsKey(buffClass))
+                            summaryAddtitionParam += magic.getEffect().get(buffClass);
+                    }
+                }
+            }
+        }
+        return summaryAddtitionParam;
+    }
+
     private void updateStats(){
         setHitPoint(getPower()*10);
         setDamage(getAgility()*getMultiplierAgility());
         setMana(getAgility()*getMultiplierIntelligence());
+    }
+
+    @Override
+    public int getGold() {
+        return gold;
+    }
+
+    @Override
+    public void setGold(int gold) {
+        this.gold = gold;
     }
 
     @Override
@@ -373,7 +401,8 @@ public class Archer implements Human, UsingItems, Equipment{
                 "; Lvl: " + String.valueOf(getLevel()) +
                 "; Exp to next level: " + expToNextLevel() +
                 "; DMG: " + getDamage() +
-                "; DEF: " + getDefence();
+                "; DEF: " + getDefence() +
+                "; GOLD: " + getGold();
     }
 
     public static CharacterFactory characterFactory = Archer::new;

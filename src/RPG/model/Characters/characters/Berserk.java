@@ -75,6 +75,16 @@ public class Berserk implements Human {
     }
 
     @Override
+    public int getGold() {
+        return 0;
+    }
+
+    @Override
+    public void setGold(int gold) {
+
+    }
+
+    @Override
     public int getMagicPoint() {
         return 0;
     }

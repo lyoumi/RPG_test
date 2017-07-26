@@ -21,4 +21,5 @@ public interface Monster {
     Map<EquipmentItems, Item> getDroppedItems();
     boolean setDebuff(Magic magic);
     boolean isDead();
+    int getDroppedGold();
 }

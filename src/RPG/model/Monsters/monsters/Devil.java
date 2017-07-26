@@ -19,7 +19,7 @@ public class Devil implements Monster {
     private static final int sizeOfItems = itemsList.size();
     private static final Random random = new Random();
 
-    private int HERO_LEVEL;
+    private int level;
     private Human human;
 
     private int damage;
@@ -28,13 +28,14 @@ public class Devil implements Monster {
 
     private Map<EquipmentItems, Item> equipmentOfDevil;
 
-    private final int experince = 100000;
+    private final int experience = 100000;
+    private final int gold = 100000;
 
     private Devil(Human human){
         this.human = human;
-        HERO_LEVEL = human.getLevel();
-        hitPoint = (HERO_LEVEL+1)*500;
-        damage = (HERO_LEVEL+1)*100;
+        level = human.getLevel() + 1;
+        hitPoint = (level)*500;
+        damage = (level)*100;
         setEquipmentOfDevil(human);
     }
 
@@ -48,7 +49,7 @@ public class Devil implements Monster {
 
     @Override
     public int getExperience() {
-        return experince;
+        return experience;
     }
 
     private int getDefence() {
@@ -103,6 +104,11 @@ public class Devil implements Monster {
     @Override
     public boolean isDead() {
         return getHitPoint() == 0;
+    }
+
+    @Override
+    public int getDroppedGold() {
+        return gold;
     }
 
     public String toString(){

@@ -24,7 +24,7 @@ public class Demon implements Monster {
     private static final int sizeOfItems = itemsList.size();
     private static final Random random = new Random();
 
-    private int HERO_LEVEL;
+    private int level;
     private Human human;
 
     private int damage;
@@ -32,15 +32,16 @@ public class Demon implements Monster {
     private LinkedList<Items> inventory = new LinkedList<>();
     private Map<EquipmentItems, Item> equipmentOfDemon;
 
-    private final int experince = 100;
+    private final int experience = 100;
+    private final int gold = 50;
 
     private DebuffMagic debuffMagic;
 
     private Demon(Human human){
         this.human = human;
-        HERO_LEVEL = human.getLevel();
-        hitPoint = (HERO_LEVEL+1)*35;
-        damage = (HERO_LEVEL+1)*10;
+        level = human.getLevel() + 1;
+        hitPoint = level *35;
+        damage = level *10;
         setEquipmentOfDemon(human);
     }
 
@@ -53,7 +54,7 @@ public class Demon implements Monster {
     }
 
     public int getExperience(){
-        return experince;
+        return experience;
     }
 
     @Override
@@ -111,15 +112,20 @@ public class Demon implements Monster {
     @Override
     public boolean setDebuff(Magic magic) {
         if (Objects.equals(magic.getClass().getSimpleName(), InstantMagic.FireBall.toString()))
-            debuffMagic = (DebuffMagic) BurningJoe.magicFactory.getMagicFactory(HERO_LEVEL);
+            debuffMagic = (DebuffMagic) BurningJoe.magicFactory.getMagicFactory(level);
         else if (Objects.equals(magic.getClass().getSimpleName(), InstantMagic.IceChains.toString()))
-            debuffMagic = (DebuffMagic) Chains.magicFactory.getMagicFactory(HERO_LEVEL);
+            debuffMagic = (DebuffMagic) Chains.magicFactory.getMagicFactory(level);
         return true;
     }
 
     @Override
     public boolean isDead() {
         return getHitPoint() == 0;
+    }
+
+    @Override
+    public int getDroppedGold() {
+        return gold;
     }
 
     public String toString(){

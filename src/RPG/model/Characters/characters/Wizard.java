@@ -19,6 +19,7 @@ public class Wizard implements Human {
     private int hitPoint = getPower()*10;
     private int experience = 0;
     private int level = 0;
+    private int gold = 0;
 
     public boolean changeLevel(){
         if (experience == ((level+1)*100)) level++;
@@ -72,6 +73,16 @@ public class Wizard implements Human {
 
     public int getMultiplierIntelligence() {
         return 0;
+    }
+
+    @Override
+    public int getGold() {
+        return 0;
+    }
+
+    @Override
+    public void setGold(int gold) {
+
     }
 
     @Override
