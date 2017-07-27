@@ -2,7 +2,6 @@ package RPG.model.Items.items.weapons.weapons;
 
 import RPG.model.Characters.Human;
 import RPG.model.Items.EquipmentItems;
-import RPG.model.Items.items.Item;
 import RPG.model.Items.items.ItemsFactory;
 import RPG.model.Items.items.weapons.Weapons;
 import RPG.model.abilities.Magic;
@@ -23,9 +22,9 @@ public class LegendaryArcherBow implements Weapons {
     private LegendaryArcherBow(Human human){
         this.human = human;
         this.itemLevel = random.nextInt(human.getLevel() + 1) + 5;
-        this.damage = getLevel() * 9;
+        this.damage = getItemLevel() * 9;
         this.buff = ArchersBuff.magicFactory.getMagicFactory(human.getLevel());
-        this.magic = BurningJoe.magicFactory.getMagicFactory(getLevel());
+        this.magic = BurningJoe.magicFactory.getMagicFactory(getItemLevel());
     }
 
     @Override
@@ -39,7 +38,7 @@ public class LegendaryArcherBow implements Weapons {
     }
 
     @Override
-    public int getLevel() {
+    public int getItemLevel() {
         return itemLevel;
     }
 
@@ -51,6 +50,11 @@ public class LegendaryArcherBow implements Weapons {
     @Override
     public Magic getBuff() {
         return buff;
+    }
+
+    @Override
+    public int getPrice() {
+        return 0;
     }
 
     public static ItemsFactory itemsFactory = LegendaryArcherBow::new;

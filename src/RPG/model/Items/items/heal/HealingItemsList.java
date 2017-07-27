@@ -1,9 +1,9 @@
-package RPG.model.Items;
+package RPG.model.Items.items.heal;
 
 /**
  * Created by pikachu on 14.07.17.
  */
-public enum Items {
+public enum HealingItemsList {
     SmallHPBottle,
     MiddleHPBottle,
     BigHPBottle,

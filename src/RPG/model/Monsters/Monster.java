@@ -1,7 +1,7 @@
 package RPG.model.Monsters;
 
 import RPG.model.Items.EquipmentItems;
-import RPG.model.Items.Items;
+import RPG.model.Items.items.HealingItems;
 import RPG.model.Items.items.Item;
 import RPG.model.abilities.Magic;
 
@@ -17,7 +17,7 @@ public interface Monster {
     int applyDamage(int applyDamage);
     int getHitPoint();
     void setHitPoint(int hitPoint);
-    LinkedList<Items> getInventory();
+    LinkedList<HealingItems> getInventory();
     Map<EquipmentItems, Item> getDroppedItems();
     boolean setDebuff(Magic magic);
     boolean isDead();

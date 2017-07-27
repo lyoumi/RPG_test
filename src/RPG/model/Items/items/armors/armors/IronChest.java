@@ -18,12 +18,14 @@ public class IronChest implements Armor {
     private int itemLevel;
     private Human human;
     private Magic magic;
+    private final int price;
 
     private Random random = new Random();
 
     private IronChest(Human human){
         this.human = human;
         this.itemLevel = random.nextInt(human.getLevel() + 1);
+        this.price = getItemLevel()*100;
         this.defence = this.getItemLevel() * 10 + 5;
         this.magic = ArchersBuff.magicFactory.getMagicFactory(human.getLevel());
     }
@@ -51,6 +53,11 @@ public class IronChest implements Armor {
     @Override
     public Magic getBuff() {
         return magic;
+    }
+
+    @Override
+    public int getPrice() {
+        return price;
     }
 
     public String toString(){

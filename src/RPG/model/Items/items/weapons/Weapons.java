@@ -10,9 +10,14 @@ import RPG.model.abilities.Magic;
 public interface Weapons extends Item {
     EquipmentItems EQUIPMENT_ITEMS();
     int getDamage();
-    int getLevel();
+    int getItemLevel();
     String getName();
 
     @Override
     Magic getBuff();
+
+    @Override
+    default int getPrice() {
+        return 0;
+    }
 }

@@ -2,8 +2,14 @@ package RPG.model.Monsters.monsters;
 
 import RPG.model.Characters.Human;
 import RPG.model.Items.EquipmentItems;
-import RPG.model.Items.Items;
+import RPG.model.Items.items.HealingItems;
 import RPG.model.Items.items.Item;
+import RPG.model.Items.items.heal.SmallHPBottle;
+import RPG.model.Items.items.heal.healHitPoint.BigHPBottle;
+import RPG.model.Items.items.heal.healHitPoint.MiddleHPBottle;
+import RPG.model.Items.items.heal.healManaPoint.BigFlower;
+import RPG.model.Items.items.heal.healManaPoint.MiddleFlower;
+import RPG.model.Items.items.heal.healManaPoint.SmallFlower;
 import RPG.model.Monsters.Monster;
 import RPG.model.Monsters.MonsterFactory;
 import RPG.model.Monsters.equipment.equipment.MonsterEquipment;
@@ -20,16 +26,16 @@ import java.util.*;
  */
 public class Demon implements Monster {
 
-    private static final List<Items> itemsList = Arrays.asList(Items.values());
-    private static final int sizeOfItems = itemsList.size();
-    private static final Random random = new Random();
+    private static Random random = new Random();
+    private static int sizeOfItems;
+    private static List<HealingItems> itemsList;
 
     private int level;
     private Human human;
 
     private int damage;
     private int hitPoint;
-    private LinkedList<Items> inventory = new LinkedList<>();
+    private LinkedList<HealingItems> inventory = new LinkedList<>();
     private Map<EquipmentItems, Item> equipmentOfDemon;
 
     private final int experience = 100;
@@ -43,10 +49,13 @@ public class Demon implements Monster {
         hitPoint = level *35;
         damage = level *10;
         setEquipmentOfDemon(human);
+        itemsList = MonsterEquipment.monsterEquipmentFactory.getMonsterEquipment().initializeItemList();
+        sizeOfItems = itemsList.size();
     }
 
+
     private void setEquipmentOfDemon(Human human) {
-        this.equipmentOfDemon = MonsterEquipment.monsterEquipmentFactory.getMonsterEquipment(human);
+        this.equipmentOfDemon = MonsterEquipment.monsterEquipmentFactory.getMonsterEquipment().initEquipment(human);
     }
 
     private boolean isBuffed() {
@@ -100,7 +109,7 @@ public class Demon implements Monster {
     }
 
     @Override
-    public LinkedList<Items> getInventory() {
+    public LinkedList<HealingItems> getInventory() {
         inventory.add(itemsList.get(random.nextInt(sizeOfItems)));
         return inventory;
     }

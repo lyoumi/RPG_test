@@ -2,7 +2,6 @@ package RPG.model.Items.items.weapons.weapons;
 
 import RPG.model.Characters.Human;
 import RPG.model.Items.EquipmentItems;
-import RPG.model.Items.items.Item;
 import RPG.model.Items.items.ItemsFactory;
 import RPG.model.Items.items.weapons.Weapons;
 import RPG.model.abilities.Magic;
@@ -25,7 +24,7 @@ public class Sword implements Weapons {
     private Sword(Human human){
         this.human = human;
         this.level = random.nextInt(human.getLevel() + 1);
-        this.damage = this.getLevel() * 5 + 5;
+        this.damage = this.getItemLevel() * 5 + 5;
         this.magic = ArchersBuff.magicFactory.getMagicFactory(human.getLevel());
     }
 
@@ -35,12 +34,17 @@ public class Sword implements Weapons {
     }
 
     @Override
+    public int getPrice() {
+        return 0;
+    }
+
+    @Override
     public int getDamage() {
         return damage;
     }
 
     @Override
-    public int getLevel() {
+    public int getItemLevel() {
         return level;
     }
 

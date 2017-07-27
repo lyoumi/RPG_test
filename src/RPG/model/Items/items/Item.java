@@ -9,4 +9,5 @@ import RPG.model.abilities.Magic;
 public interface Item {
     EquipmentItems EQUIPMENT_ITEMS();
     Magic getBuff();
+    int getPrice();
 }

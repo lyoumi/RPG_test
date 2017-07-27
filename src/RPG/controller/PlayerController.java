@@ -6,9 +6,13 @@ import RPG.model.Characters.characters.Berserk;
 import RPG.model.Characters.characters.Wizard;
 import RPG.model.Items.Equipment;
 import RPG.model.Items.EquipmentItems;
-import RPG.model.Items.Items;
 import RPG.model.Items.UsingItems;
+import RPG.model.Items.items.HealingItems;
 import RPG.model.Items.items.Item;
+import RPG.model.Items.items.heal.SmallHPBottle;
+import RPG.model.Items.items.heal.healHitPoint.BigHPBottle;
+import RPG.model.Items.items.heal.healHitPoint.MiddleHPBottle;
+import RPG.model.Monsters.equipment.equipment.MonsterEquipment;
 import RPG.model.Monsters.monsters.Demon;
 import RPG.model.Monsters.monsters.Devil;
 import RPG.model.Monsters.Monster;
@@ -18,6 +22,8 @@ import RPG.model.abilities.instants.instants.InstantMagic;
 import RPG.model.abilities.instants.instants.combat.FireBall;
 import RPG.model.abilities.instants.instants.combat.IceChains;
 import RPG.model.abilities.instants.instants.healing.SmallHealing;
+import RPG.model.traeders.Trader;
+import RPG.model.traeders.traders.SimpleTrader;
 
 import java.io.IOException;
 import java.util.*;
@@ -29,7 +35,7 @@ public class PlayerController {
 
     private static Scanner scanner = new Scanner(System.in);
     private static final Random random = new Random();
-    private static final List<Items> itemsList = new ArrayList<>(Arrays.asList(Items.values()));
+    private static final List<HealingItems> itemsList = MonsterEquipment.monsterEquipmentFactory.getMonsterEquipment().initializeItemList();
     private static final int sizeOfItems = itemsList.size();
 
     /**
@@ -67,7 +73,7 @@ public class PlayerController {
      *              boolean result
      */
     private boolean nextChoice(Human human){
-        System.out.println("What's next: use item for heal, walking for find new items, auto-battle for check your fortune, stop for break adventures or continue....");
+        System.out.println("What's next: use item for heal, walking for find new items, auto-battle for check your fortune, market for go to shop stop for break adventures or continue....");
         choice:
         while (true) {
             String s = scanner.nextLine();
@@ -83,6 +89,9 @@ public class PlayerController {
                     autoBattle(human);
                     break choice;
                 case "continue":
+                    break choice;
+                case "market":
+                    trader(human);
                     break choice;
                 case "stop":
                     exit();
@@ -172,6 +181,58 @@ public class PlayerController {
         }
     }
 
+    private void trader(Human human){
+        Trader trader = SimpleTrader.tradersFactory.getTrader(human);
+        market:
+        while(true){
+            System.out.println("\nHello my friend! Look at my priceList: enter equipment, heal or exit for exit from market....");
+            String s = scanner.nextLine();
+            switch (s){
+                case "equipment":{
+                    for (Map.Entry<Integer, Item> entry :
+                            trader.getPriceListEquipmentObjects().entrySet()) {
+                        System.out.println("Price: " + entry.getValue().getPrice() + "G - " + "id: " + entry.getKey() + "; " + entry.getValue());
+                    }
+                    System.out.println("Pls, make your choice....");
+                    while(true){
+                        System.out.println("Pls, enter id....");
+                        int id = scanner.nextInt();
+                        if (trader.getPriceListEquipmentObjects().containsKey(id)){
+                            if (human.getGold() >= trader.getPriceListEquipmentObjects().get(id).getPrice()){
+                                human.setGold(human.getGold()-trader.getPriceListEquipmentObjects().get(id).getPrice());
+                                ((Equipment)human).equip(trader.getEquipmentItem());
+                            } else System.out.println("Not enough of money!");
+                            break;
+                        } else System.out.println("Pls, enter a correct id");
+                    }
+                    break;
+                }
+                case "heal":{
+                    for (Map.Entry<Integer, HealingItems> entry :
+                            trader.getPriceListHealingObjects().entrySet()){
+                        System.out.println("Price: " + entry.getValue().getPrice() + "G - " + "id: " + entry.getKey() + "; " + entry.getValue());
+                    }
+                    while(true){
+                        System.out.println("Pls, enter id....");
+                        int id = scanner.nextInt();
+                        if (trader.getPriceListHealingObjects().containsKey(id)){
+                            System.out.println("Enter count....");
+                            int count = scanner.nextInt();
+                            if (human.getGold() >= trader.getPriceListHealingObjects().get(id).getPrice()*count){
+                                human.setGold(human.getGold()-trader.getPriceListEquipmentObjects().get(id).getPrice());
+                                ((UsingItems)human).addAll(trader.getHealItems(count, trader.getPriceListHealingObjects().get(id)));
+                            } else System.out.println("Not enough of money!");
+                            break;
+                        } else System.out.println("Pls, enter a correct id");
+                    }
+                    break;
+                }
+                case "exit": break market;
+                default: System.out.println("Pls, make a correct choice....");
+            }
+        }
+    }
+
     /**
      * Метод проверяющий наличие неиспользованных очков навыков и реализующий их распределение.
      *
@@ -245,7 +306,7 @@ public class PlayerController {
             while (System.in.available()==0) {
                 human.experienceDrop(0.0000001);
                 if (random.nextInt(10000000) == 999999) {
-                    Items item = itemsList.get(random.nextInt(sizeOfItems));
+                    HealingItems item = itemsList.get(random.nextInt(sizeOfItems));
                     System.out.println("I found " + item);
                     human.getInventory().add(item);
                 }
@@ -284,16 +345,16 @@ public class PlayerController {
      *          boolean result of heal
      */
     private boolean autoHeal(Human human){
-        if ((human.getHitPoint() < (human.getMaxHitPoint()/10)) && (human.getInventory().contains(Items.BigHPBottle))) {
-            ((UsingItems)human).use(Items.BigHPBottle);
+        if ((human.getHitPoint() < (human.getMaxHitPoint()/10)) && (human.getInventory().contains(BigHPBottle.healingItemsFactory.getHealingItem()))) {
+            ((UsingItems)human).use(BigHPBottle.healingItemsFactory.getHealingItem());
             System.out.println(human);
             return true;
-        }else if ((human.getHitPoint() < (human.getMaxHitPoint()/4)) && (human.getInventory().contains(Items.MiddleHPBottle))) {
-            ((UsingItems)human).use(Items.MiddleHPBottle);
+        }else if ((human.getHitPoint() < (human.getMaxHitPoint()/4)) && (human.getInventory().contains(MiddleHPBottle.healingItemsFactory.getHealingItem()))) {
+            ((UsingItems)human).use(MiddleHPBottle.healingItemsFactory.getHealingItem());
             System.out.println(human);
             return true;
-        }else if ((human.getHitPoint() < (human.getMaxHitPoint()/2)) && (human.getInventory().contains(Items.SmallHPBottle))) {
-            ((UsingItems)human).use(Items.SmallHPBottle);
+        }else if ((human.getHitPoint() < (human.getMaxHitPoint()/2)) && (human.getInventory().contains(SmallHPBottle.healingItemsFactory.getHealingItem()))) {
+            ((UsingItems)human).use(SmallHPBottle.healingItemsFactory.getHealingItem());
             System.out.println(human);
             return true;
         }else if((human.getHitPoint() < (human.getMaxHitPoint()/3)) && (human.getInventory().isEmpty()) && (human.getManaPoint() >= SmallHealing.magicFactory.getMagicFactory(human.getMaxHitPoint()).getManaCost())){
@@ -373,6 +434,7 @@ public class PlayerController {
         if (autoDrop){
             human.experienceDrop(monster.getExperience());
             ((UsingItems) human).add(monster.getInventory().pollLast());
+            human.setGold(human.getGold() + monster.getDroppedGold());
             Map<EquipmentItems, Item> droppedEquipment = monster.getDroppedItems();
             for (Map.Entry<EquipmentItems, Item> entry : droppedEquipment.entrySet()) {
                 ((Equipment)human).equip(entry.getValue());
@@ -383,12 +445,21 @@ public class PlayerController {
         else{
             if (!Objects.equals(monster.getDroppedItems(), null)){
                 Map<EquipmentItems, Item> droppedEquipment = monster.getDroppedItems();
+                System.out.println("You have found " + monster.getDroppedGold());
+                human.setGold(human.getGold() + monster.getDroppedGold());
+                System.out.println("Your equipment " + ((Equipment)human).showEquipment());
+                System.out.println("Pls, choose equipment or equip all....");
+                System.out.println(droppedEquipment);
+                String equipAll = scanner.nextLine();
+                if (Objects.equals(equipAll, "equip all"))
+                    for (Map.Entry<EquipmentItems, Item> entry : droppedEquipment.entrySet()) {
+                        ((Equipment)human).equip(entry.getValue());
+                    }
+                else
                 while (true){
                     System.out.println("Your equipment " + ((Equipment)human).showEquipment());
                     System.out.println("Pls, choose equipment....");
                     System.out.println(droppedEquipment);
-                    System.out.println("You have found " + monster.getDroppedGold());
-                    human.setGold(human.getGold() + monster.getDroppedGold());
                     String key;
                     List <String> list = Arrays.asList("HEAD", "HANDS", "LEGS", "ARMOR");
                     while (true){

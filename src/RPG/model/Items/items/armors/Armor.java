@@ -8,11 +8,10 @@ import RPG.model.abilities.Magic;
  * Created by pikachu on 17.07.17.
  */
 public interface Armor extends Item {
-    EquipmentItems EQUIPMENT_ITEMS();
     int getItemLevel();
     int getDefence();
     String getName();
-
-    @Override
+    EquipmentItems EQUIPMENT_ITEMS();
     Magic getBuff();
+    int getPrice();
 }

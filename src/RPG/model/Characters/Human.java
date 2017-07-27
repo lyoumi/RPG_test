@@ -1,6 +1,6 @@
 package RPG.model.Characters;
 
-import RPG.model.Items.Items;
+import RPG.model.Items.items.HealingItems;
 import RPG.model.abilities.Magic;
 
 import java.util.ArrayList;
@@ -30,7 +30,11 @@ public interface Human {
 
     int getMaxHitPoint();
 
-    ArrayList<Items> getInventory();
+    int getMaxManaPoint();
+
+    boolean setManaPoint(int mana);
+
+    ArrayList<HealingItems> getInventory();
 
     void experienceDrop(double experience);
 

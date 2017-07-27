@@ -18,12 +18,14 @@ public class IronBoots implements Armor{
     private int itemLevel;
     private Magic magic;
     private Human human;
+    private final int price;
 
     private Random random = new Random();
 
     private IronBoots(Human human){
         this.human = human;
         this.itemLevel = random.nextInt(human.getLevel() + 1);
+        this.price = 100*getItemLevel();
         this.defence = getItemLevel() * 10 + 5;
         this.magic = ArchersBuff.magicFactory.getMagicFactory(human.getLevel());
     }
@@ -51,6 +53,11 @@ public class IronBoots implements Armor{
     @Override
     public Magic getBuff() {
         return magic;
+    }
+
+    @Override
+    public int getPrice() {
+        return price;
     }
 
     @Override

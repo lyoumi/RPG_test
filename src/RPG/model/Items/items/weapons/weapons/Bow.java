@@ -17,19 +17,26 @@ public class Bow implements Weapons {
     private int itemLevel;
     private Human human;
     private Magic magic;
+    private final int price;
 
     private Random random = new Random();
 
     private Bow(Human human){
         this.human = human;
         this.itemLevel = random.nextInt(human.getLevel() + 1);
-        this.damage = getLevel() * 7 + 5;
+        this.price = 100* getItemLevel();
+        this.damage = getItemLevel() * 7 + 5;
         this.magic = ArchersBuff.magicFactory.getMagicFactory(human.getLevel());
     }
 
     @Override
     public Magic getBuff() {
         return magic;
+    }
+
+    @Override
+    public int getPrice() {
+        return price;
     }
 
     @Override
@@ -43,7 +50,7 @@ public class Bow implements Weapons {
     }
 
     @Override
-    public int getLevel() {
+    public int getItemLevel() {
         return itemLevel;
     }
 

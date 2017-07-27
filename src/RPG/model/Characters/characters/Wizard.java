@@ -2,7 +2,7 @@ package RPG.model.Characters.characters;
 
 import RPG.model.Characters.CharacterFactory;
 import RPG.model.Characters.Human;
-import RPG.model.Items.Items;
+import RPG.model.Items.items.HealingItems;
 import RPG.model.abilities.Magic;
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class Wizard implements Human {
         this.intelligence = intelligence;
     }
 
-    public boolean setMana(int mana) {
+    public boolean setManaPoint(int mana) {
         return true;
     }
 
@@ -130,7 +130,12 @@ public class Wizard implements Human {
     }
 
     @Override
-    public ArrayList<Items> getInventory() {
+    public int getMaxManaPoint() {
+        return 0;
+    }
+
+    @Override
+    public ArrayList<HealingItems> getInventory() {
         return null;
     }
 

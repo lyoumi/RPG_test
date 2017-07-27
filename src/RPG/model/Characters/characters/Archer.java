@@ -4,7 +4,7 @@ import RPG.model.Characters.CharacterFactory;
 import RPG.model.Characters.Human;
 import RPG.model.Items.Equipment;
 import RPG.model.Items.EquipmentItems;
-import RPG.model.Items.Items;
+import RPG.model.Items.items.HealingItems;
 import RPG.model.Items.UsingItems;
 import RPG.model.Items.items.Item;
 import RPG.model.Items.items.armors.Armor;
@@ -32,7 +32,7 @@ public class Archer implements Human, UsingItems, Equipment{
     private int baseDamage = getAgility()*getMultiplierAgility();
     private int hitPoint = getPower()*getMultiplierPower();
     private int mana = getIntelligence()*getMultiplierIntelligence();
-    private ArrayList<Items> inventory = new ArrayList<>();
+    private ArrayList<HealingItems> inventory = new ArrayList<>();
     private Map<EquipmentItems, Item> equipmentItems = new HashMap<>();
     private Weapons weapon;
     private Armor armor;
@@ -92,24 +92,6 @@ public class Archer implements Human, UsingItems, Equipment{
         return agility + getSummaryAdditionParam(BuffClasses.intelligence);
     }
 
-    private int getSummaryAdditionAgility(){
-        int additionAgility = 0;
-        if(!Objects.equals(equipmentItems, null)){
-            for (Map.Entry<EquipmentItems, Item> entry :
-                    equipmentItems.entrySet()) {
-                if (!Objects.equals(entry.getValue().getBuff(), null)){
-                    if (entry.getValue().getBuff().getMagicClass().equals(MagicClasses.BUFF)){
-                        magic = entry.getValue().getBuff();
-                        BuffMagic magic = (BuffMagic) this.magic;
-                        if (magic.getEffect().containsKey(BuffClasses.agility))
-                            additionAgility += magic.getEffect().get(BuffClasses.agility);
-                    }
-                }
-            }
-        }
-        return additionAgility;
-    }
-
     private void setAgility(int agility) {
         this.agility = agility;
     }
@@ -118,31 +100,8 @@ public class Archer implements Human, UsingItems, Equipment{
         return intelligence + getSummaryAdditionParam(BuffClasses.intelligence);
     }
 
-    private int getSummaryAdditionIntelligence(){
-        int additionIntelligence = 0;
-        if (!Objects.equals(equipmentItems, null)){
-            for (Map.Entry<EquipmentItems, Item> entry :
-                    equipmentItems.entrySet()) {
-                if (!Objects.equals(entry.getValue().getBuff(), null)){
-                    if (entry.getValue().getBuff().getMagicClass().equals(MagicClasses.BUFF)){
-                        magic = entry.getValue().getBuff();
-                        BuffMagic magic = (BuffMagic) this.magic;
-                        if (magic.getEffect().containsKey(BuffClasses.intelligence))
-                            additionIntelligence += magic.getEffect().get(BuffClasses.intelligence);
-                    }
-                }
-            }
-        }
-        return additionIntelligence;
-    }
-
     private void setIntelligence(int intelligence) {
         this.intelligence = intelligence;
-    }
-
-    private boolean setMana(int mana) {
-        this.mana = mana;
-        return true;
     }
 
     private int notEnoughOfMana(){
@@ -152,23 +111,6 @@ public class Archer implements Human, UsingItems, Equipment{
 
     private int getPower() {
         return power + getSummaryAdditionParam(BuffClasses.power);
-    }
-
-    private int getSummaryAdditionPower(){
-        int additionPower = 0;
-        if(!Objects.equals(equipmentItems, null)){
-            for (Map.Entry<EquipmentItems, Item> entry : equipmentItems.entrySet()) {
-                if (!Objects.equals(entry.getValue().getBuff(), null)){
-                    if (entry.getValue().getBuff().getMagicClass().equals(MagicClasses.BUFF)){
-                        magic = entry.getValue().getBuff();
-                        BuffMagic magic = (BuffMagic) this.magic;
-                        if (magic.getEffect().containsKey(BuffClasses.power))
-                            additionPower += magic.getEffect().get(BuffClasses.power);
-                    }
-                }
-            }
-        }
-        return additionPower;
     }
 
     private void setPower(int power) {
@@ -206,7 +148,13 @@ public class Archer implements Human, UsingItems, Equipment{
     private void updateStats(){
         setHitPoint(getPower()*10);
         setDamage(getAgility()*getMultiplierAgility());
-        setMana(getAgility()*getMultiplierIntelligence());
+        setManaPoint(getAgility()*getMultiplierIntelligence());
+    }
+
+    public boolean setManaPoint(int mana) {
+        if (mana > getMaxManaPoint()) this.mana = getMaxManaPoint();
+        else this.mana = mana;
+        return true;
     }
 
     @Override
@@ -244,20 +192,20 @@ public class Archer implements Human, UsingItems, Equipment{
         if (magic instanceof FireBall) {
             FireBall fireBall = (FireBall) magic;
             if(getManaPoint() >= fireBall.getManaCost()){
-                setMana(getManaPoint()-fireBall.getManaCost());
+                setManaPoint(getManaPoint()-fireBall.getManaCost());
                 return fireBall.getDamage();
             } else return notEnoughOfMana();
         }else if (magic instanceof SmallHealing){
             System.out.println(toString());
             SmallHealing healing = (SmallHealing) magic;
             if (getManaPoint() >= healing.getManaCost()){
-                setMana(getManaPoint()-healing.getManaCost());
+                setManaPoint(getManaPoint()-healing.getManaCost());
                 return healing.getDamage();
             } else return notEnoughOfMana();
         }else if(magic instanceof IceChains){
             IceChains iceChains = (IceChains) magic;
             if(getManaPoint() >= iceChains.getManaCost()){
-                setMana(getManaPoint()-iceChains.getManaCost());
+                setManaPoint(getManaPoint()-iceChains.getManaCost());
                 return iceChains.getDamage();
             } else return notEnoughOfMana();
         } else return notEnoughOfMana();
@@ -298,7 +246,7 @@ public class Archer implements Human, UsingItems, Equipment{
 
     @Override
     public void setHitPoint(int hitPoint) {
-        if (hitPoint > getMaxHitPoint()) this.hitPoint = getMaxHitPoint();
+        if (hitPoint >= getMaxHitPoint()) this.hitPoint = getMaxHitPoint();
         else this.hitPoint = hitPoint;
     }
 
@@ -308,47 +256,57 @@ public class Archer implements Human, UsingItems, Equipment{
     }
 
     @Override
-    public ArrayList<Items> getInventory() {
+    public int getMaxManaPoint() {
+        return getIntelligence()*getMultiplierIntelligence();
+    }
+
+    @Override
+    public ArrayList<HealingItems> getInventory() {
         return inventory;
     }
 
     @Override
-    public boolean add(Items item) {
+    public boolean add(HealingItems item) {
         return inventory.add(item);
     }
 
+    public boolean addAll(List<HealingItems> items) {
+        return inventory.addAll(items);
+    }
+
     @Override
-    public void use(Items item) {
-        if (item.equals(Items.SmallHPBottle)) {
-            setHitPoint(getHitPoint()+((getPower()*getPower())/2));
-            System.out.println(item + " used");
-            getInventory().remove(item);
-        }
-        if (item.equals(Items.MiddleHPBottle)) {
-            setHitPoint(getHitPoint() + ((getPower()*getPower())*3/4));
-            System.out.println(item + " used");
-            getInventory().remove(item);
-        }
-        if (item.equals(Items.BigHPBottle)) {
-            setHitPoint(getPower()*getMultiplierPower());
-            System.out.println(item + " used");
-            getInventory().remove(item);
-        }
-        if (item.equals(Items.SmallFlower)){
-            setMana(getManaPoint() + (getIntelligence()*getMultiplierIntelligence()));
-            System.out.println(item + " used");
-            getInventory().remove(item);
-        }
-        if (item.equals(Items.MiddleFlower)){
-            setMana(getManaPoint() + (getIntelligence()*getMultiplierIntelligence()*3/4));
-            System.out.println(item + " used");
-            getInventory().remove(item);
-        }
-        if (item.equals(Items.BigFlower)){
-            setMana(getIntelligence()*getMultiplierIntelligence());
-            System.out.println(item + " used");
-            getInventory().remove(item);
-        }
+    public void use(HealingItems item) {
+//        if (item.equals(Items.SmallHPBottle)) {
+//            setHitPoint(getHitPoint()+((getPower()*getPower())/2));
+//            System.out.println(item + " used");
+//            getInventory().remove(item);
+//        }
+//        if (item.equals(Items.MiddleHPBottle)) {
+//            setHitPoint(getHitPoint() + ((getPower()*getPower())*3/4));
+//            System.out.println(item + " used");
+//            getInventory().remove(item);
+//        }
+//        if (item.equals(Items.BigHPBottle)) {
+//            setHitPoint(getPower()*getMultiplierPower());
+//            System.out.println(item + " used");
+//            getInventory().remove(item);
+//        }
+//        if (item.equals(Items.SmallFlower)){
+//            setManaPoint(getManaPoint() + (getIntelligence()*getMultiplierIntelligence()));
+//            System.out.println(item + " used");
+//            getInventory().remove(item);
+//        }
+//        if (item.equals(Items.MiddleFlower)){
+//            setManaPoint(getManaPoint() + (getIntelligence()*getMultiplierIntelligence()*3/4));
+//            System.out.println(item + " used");
+//            getInventory().remove(item);
+//        }
+//        if (item.equals(Items.BigFlower)){
+//            setManaPoint(getIntelligence()*getMultiplierIntelligence());
+//            System.out.println(item + " used");
+//            getInventory().remove(item);
+//        }
+        item.use(this);
     }
 
     @Override
