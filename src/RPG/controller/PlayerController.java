@@ -22,8 +22,8 @@ import RPG.model.abilities.instants.instants.InstantMagic;
 import RPG.model.abilities.instants.instants.combat.FireBall;
 import RPG.model.abilities.instants.instants.combat.IceChains;
 import RPG.model.abilities.instants.instants.healing.SmallHealing;
-import RPG.model.traeders.Trader;
-import RPG.model.traeders.traders.SimpleTrader;
+import RPG.model.traders.Trader;
+import RPG.model.traders.traders.SimpleTrader;
 
 import java.io.IOException;
 import java.util.*;

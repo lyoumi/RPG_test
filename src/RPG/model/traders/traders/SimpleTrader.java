@@ -1,4 +1,4 @@
-package RPG.model.traeders.traders;
+package RPG.model.traders.traders;
 
 import RPG.lib.RandomUniqueValue;
 import RPG.model.Characters.Human;
@@ -7,8 +7,8 @@ import RPG.model.Items.items.Item;
 import RPG.model.Items.items.heal.healHitPoint.BigHPBottle;
 import RPG.model.Items.items.heal.healManaPoint.BigFlower;
 import RPG.model.Items.items.weapons.weapons.LegendaryArcherBow;
-import RPG.model.traeders.Trader;
-import RPG.model.traeders.TradersFactory;
+import RPG.model.traders.Trader;
+import RPG.model.traders.TradersFactory;
 
 import java.util.*;
 

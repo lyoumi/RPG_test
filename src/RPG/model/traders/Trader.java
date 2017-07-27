@@ -1,4 +1,4 @@
-package RPG.model.traeders;
+package RPG.model.traders;
 
 import RPG.model.Items.items.HealingItems;
 import RPG.model.Items.items.Item;
