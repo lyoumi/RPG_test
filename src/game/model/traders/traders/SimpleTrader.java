@@ -61,15 +61,6 @@ public class SimpleTrader implements Trader{
         priceListHealingObjects.put(randomUniqueValue.nextUniqueInt(), BigHPBottle.healingItemsFactory.getHealingItem());
     }
 
-    /**
-     * Метод, возвращающий купленный предмет экипировки.
-     * После продажи объект удаляется из списка продающихся предметов.
-     *
-     * @param id
-     *          item id
-     * @return
-     *          equipment item
-     */
     @Override
     public Item getEquipmentItem(int id) {
         Item item = priceListEquipmentObjects.get(id);
@@ -77,16 +68,6 @@ public class SimpleTrader implements Trader{
         return item;
     }
 
-    /**
-     * Метод, возвращающий предметы для восстановления здоровья/маны в количестве заданным пользователем
-     *
-     * @param count
-     *              count of items purchased
-     * @param id
-     *              id of items purchased
-     * @return
-     *              list of items purchased
-     */
     @Override
     public List<HealingItems> getHealItems(int count, int id) {
         List<HealingItems> list = new ArrayList<>();
@@ -96,23 +77,11 @@ public class SimpleTrader implements Trader{
         return list;
     }
 
-    /**
-     * Метод, возвращающий список с товаров и их id в {@link Map}
-     *
-     * @return
-     *          priceList of equipment items
-     */
     @Override
     public Map<Integer, Item> getPriceListEquipmentObjects() {
         return priceListEquipmentObjects;
     }
 
-    /**
-     * Метод, возвращающий список с товаров и их id в {@link Map}
-     *
-     * @return
-     *          priceList of equipment items
-     */
     @Override
     public Map<Integer, HealingItems> getPriceListHealingObjects() {
         return priceListHealingObjects;
